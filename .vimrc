@@ -2,8 +2,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
@@ -11,31 +10,31 @@ call vundle#begin()
 " Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
-Plugin	'sheerun/vim-polyglot'
+Plug	'sheerun/vim-polyglot'
     "syntax completer
-Plugin	'joshdick/onedark.vim'
+Plug	'joshdick/onedark.vim'
     "theme
-Plugin	'itchyny/lightline.vim'
+Plug	'itchyny/lightline.vim'
     "bottom status bar
-Plugin	'junegunn/fzf'
+Plug	'junegunn/fzf'
     "search tool? not sure if installed correctly
-Plugin	'junegunn/fzf.vim'
+Plug	'junegunn/fzf.vim'
     "extra commands
-Plugin	'frazrepo/vim-rainbow'
+Plug	'frazrepo/vim-rainbow'
     "rainbow brackets
-Plugin	'preservim/nerdtree'
+Plug	'preservim/nerdtree'
     "file browser
-Plugin	'preservim/nerdcommenter'
+Plug	'preservim/nerdcommenter'
     "commenting tool
-Plugin	'jiangmiao/auto-pairs'
+Plug	'jiangmiao/auto-pairs'
     " bracket pairing
-Plugin	'airblade/vim-gitgutter'
+Plug	'airblade/vim-gitgutter'
     " git edit status on side
-Plugin	'ryanoasis/vim-devicons'
+Plug	'ryanoasis/vim-devicons'
     " fonts and icon support for nerdtree
-Plugin	'ycm-core/YouCompleteMe'
+Plug	'ycm-core/YouCompleteMe'
     " syntax completion
-call vundle#end()            " required
+call plug#end()            " required
 filetype plugin indent on    " required
 
 " onedark
