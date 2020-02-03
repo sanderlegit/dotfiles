@@ -67,6 +67,14 @@ map <C-n> :NERDTreeToggle<CR>
 " nerdcommenter
 filetype plugin on
 
+" moving lines around keymaps
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
 " everything below here was from the downloaded .vimrc
 set autoindent
 set ts=4
