@@ -1,13 +1,4 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-call plug#begin('~/.vim/plugged')
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-" Plugin 'Valloric/YouCompleteMe'
+call plug#begin('~/.config/nvim/plugged')
 
 " All of your Plugins must be added before the following line
 Plug	'sheerun/vim-polyglot'
@@ -35,7 +26,6 @@ Plug	'ryanoasis/vim-devicons'
 Plug	'ycm-core/YouCompleteMe'
     " syntax completion
 call plug#end()            " required
-filetype plugin indent on    " required
 
 " onedark
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
@@ -65,6 +55,14 @@ map <C-n> :NERDTreeToggle<CR>
 
 " nerdcommenter
 filetype plugin on
+
+" moving lines around keymaps
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " everything below here was from the downloaded .vimrc
 set autoindent
