@@ -1,16 +1,10 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
+Plugin 'VundleVim/Vundle.vim'
 " let Vundle manage Vundle, required
-" Plugin 'Valloric/YouCompleteMe'
-
-" All of your Plugins must be added before the following line
 Plugin	'sheerun/vim-polyglot'
     "syntax completer
 Plugin	'joshdick/onedark.vim'
@@ -35,8 +29,40 @@ Plugin	'ryanoasis/vim-devicons'
     " fonts and icon support for nerdtree
 Plugin	'ycm-core/YouCompleteMe'
     " syntax completion
+Plugin  'StanAngeloff/php.vim'
+    " php
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+""call plug#begin(stdpath('data') . '/plugged')
+"call plug#begin('~/.vim/plugged')
+"Plug 'sheerun/vim-polyglot'
+    ""syntax completer
+"Plug 'joshdick/onedark.vim'
+    ""theme
+"Plug 'itchyny/lightline.vim'
+    ""bottom status bar
+"Plug 'junegunn/fzf'
+    ""search tool? not sure if installed correctly
+"Plug 'junegunn/fzf.vim'
+    ""extra commands
+"Plug 'frazrepo/vim-rainbow'
+    ""rainbow brackets
+"Plug 'preservim/nerdtree'
+    ""file browser
+"Plug 'preservim/nerdcommenter'
+    ""commenting tool
+"Plug 'jiangmiao/auto-pairs'
+    "" bracket pairing
+"Plug 'airblade/vim-gitgutter'
+    "" git edit status on side
+"Plug 'ryanoasis/vim-devicons'
+    "" fonts and icon support for nerdtree
+"Plug 'ycm-core/YouCompleteMe'
+    "" syntax completion
+"Plug 'StanAngeloff/php.vim'
+    "" php
+"call plug#end()
 
 " onedark
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
@@ -58,22 +84,30 @@ endif
 syntax on
 colorscheme onedark
 
+" system clipboard in default register (unnamed)
+set clipboard^=unnamed
+
 " vim-rainbow
 let g:rainbow_active = 1
 
 " nerdtree
 map <C-n> :NERDTreeToggle<CR>
+map <C-c> :source ~/.config/nvim/init.vim<CR>
 
 " nerdcommenter
 filetype plugin on
 
 " moving lines around keymaps
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
+"nnoremap <A-j> :m .+1<CR>==
+"nnoremap <A-k> :m .-2<CR>==
+"inoremap <A-j> <Esc>:m .+1<CR>==gi
+"inoremap <A-k> <Esc>:m .-2<CR>==gi
+"vnoremap <A-j> :m '>+1<CR>gv=gv
+"vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" Removing tab from interacting with YCM
+let g:ycm_key_list_select_completion = ['<Down>', '<Enter>']
+let g:ycm_key_list_previous_completion = ['<Up>']
 
 " everything below here was from the downloaded .vimrc
 set autoindent
@@ -90,9 +124,9 @@ set wildmode=longest:full
 set nu "line numbers
 
 "for indenting
-set expandtab
 set shiftwidth=4
 set tabstop=4
+set softtabstop=0 noexpandtab
 set smarttab
 vmap <Tab> >gv
 vmap <S-Tab> <gv
@@ -102,6 +136,9 @@ set lbr "word wrap
 set tw=500
 
 set wrap "Wrap lines
+
+vnoremap > ><CR>gv
+vnoremap < <<CR>gv
 
 " scrolling
 inoremap <C-E> <C-X><C-E> "scrolling on insert
@@ -200,3 +237,16 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
 autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
 highlight EOLWS ctermbg=red guibg=red
+
+" MINE, php override
+"function! PhpSyntaxOverride()
+  "syn match phpParentOnly "[()]" contained containedin=phpParent
+  "hi phpParentOnly guifg=#f08080 guibg=NONE gui=NONE
+  "hi! link phpDocTags phpDefine
+  "hi! link phpDocParam phpType
+"endfunction
+
+"augroup phpSyntaxOverride
+  "autocmd!
+  "autocmd FileType php call PhpSyntaxOverride()
+"augroup END
