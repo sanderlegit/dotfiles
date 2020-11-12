@@ -3,6 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/dries/.oh-my-zsh"
+export TERM=xterm-256color
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -97,6 +98,33 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias musica="spotify --force-device-scale-factor=2 &"
+alias musica="spotify --force-device-scale-factor=2 &>/dev/null &; disown %1"
+alias open="nohup nautilus ./ &>/dev/null &"
 alias xampp="sudo /opt/lampp/manager-linux-x64.run &"
+alias lg="lazygit"
 alias v="nvim"
+#function sf() {
+    #if [ "$2" != "" ]
+    #then
+		#grep -R "$1" "$2" 2>/dev/null
+    #else
+		#grep -R "$1" * 2>/dev/null
+    #fi
+#}
+#alias fixres="xrandr --output DP-1 --scale 2x2 --pos 0x-1080"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+alias norm="~/Documents/codam/norm/norm.sh"
+
+export WIP=minishell
+alias mk="make && ./$WIP"
+alias re="make re && ./$WIP"
+alias work="cd ~/Documents/codam/$WIP/$WIP"
+alias test="~/Documents/codam/library/test_minishell.sh"
+alias testest="echo \"$1; exit\""
+
+#[[ $TMUX = "" ]] && export TERM="xterm-256color"
+
+export LANG=en_US.UTF-8
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
