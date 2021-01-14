@@ -16,7 +16,7 @@ Plug 'frazrepo/vim-rainbow'
 	"commenting tool
 Plug 'preservim/nerdcommenter'
 " bracket pairing
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs' " replace by coc-pairs
 	" nerdfonts and icon support
 Plug 'ryanoasis/vim-devicons'
 	"header
@@ -219,6 +219,10 @@ endif
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+" cant find the format settings for these
+"nmap <leader>cr  <Plug>(coc-rename)
+"nmap <leader>cf  <Plug>(coc-format-selected)
+"vmap <leader>cf  <Plug>(coc-format-selected)
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -386,6 +390,8 @@ vnoremap <leader>y "+y
 nnoremap <A-l> :tabnext<CR>
 nnoremap <A-h> :tabprevious<CR>
 set mouse=a
+" Split line into another with K
+nnoremap K i<CR><Esc>
 " move in long lines
 nnoremap k gk
 nnoremap j gj
@@ -422,6 +428,14 @@ autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
 highlight EOLWS ctermbg=red guibg=red
 	"for nerdfont
 set encoding=UTF-8
+
+" To swap the two parts of a split window simply do: <C-w> <C-r> 
+
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
 
 " Fix alacritty opacity
 hi! Normal ctermbg=NONE guibg=NONE

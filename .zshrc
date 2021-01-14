@@ -95,12 +95,14 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias musica="spotify --force-device-scale-factor=2 &>/dev/null &; disown %1"
 alias open="nohup nautilus ./ &>/dev/null &"
 alias xampp="sudo /opt/lampp/manager-linux-x64.run &"
+function detatch() {
+	$1 &>/dev/null &; disown %1;
+}
 alias lg="lazygit"
 alias v="nvim"
 #function sf() {
@@ -116,15 +118,24 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 alias norm="~/Documents/codam/norm/norm.sh"
 
-export WIP=minishell
-alias mk="make && ./$WIP"
-alias re="make re && ./$WIP"
-alias work="cd ~/Documents/codam/$WIP/$WIP"
-alias test="~/Documents/codam/library/test_minishell.sh"
-alias testest="echo \"$1; exit\""
+function m() {
+	cd $1 && ls -la;
+}
+
+export WIP="cpp_piscine"
+#export WIP_dir=~/Documents/codam/$WIP\_project/
+export WIP_dir=~/Documents/codam/$WIP/
+source $WIP_dir\bash_functions
+alias work="cd $WIP_dir"
 
 #[[ $TMUX = "" ]] && export TERM="xterm-256color"
 
 export LANG=en_US.UTF-8
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Load Homebrew config script
+source $HOME/.brewconfig.zsh
+
+#Debug autocomplete
+# typeset -f -t _main_complete
