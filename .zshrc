@@ -103,6 +103,7 @@ alias xampp="sudo /opt/lampp/manager-linux-x64.run &"
 function detatch() {
 	$1 &>/dev/null &; disown %1;
 }
+alias nobar=xprop -format _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS 2;
 alias lg="lazygit"
 alias v="nvim"
 #function sf() {
