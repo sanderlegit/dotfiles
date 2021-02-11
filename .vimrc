@@ -34,6 +34,8 @@ Plug 'antoinemadec/coc-fzf'
 	"sneak
 Plug 'justinmk/vim-sneak'
 	"calling tree, extended ccls functionality
+Plug 'octol/vim-cpp-enhanced-highlight'
+	" better cpp highlighting
 Plug 'm-pilia/vim-ccls'
 call plug#end()            " required
 filetype plugin indent on    " required
@@ -61,8 +63,8 @@ endif
 
 	"gruv
 "set background=light
-"set background=dark
-"colorscheme gruvbox
+set background=dark
+colorscheme gruvbox
 
 	"papercolor
 "set background=light
@@ -71,7 +73,12 @@ endif
 "let g:lightline = { 'colorscheme': 'PaperColor' }
 
 	"Onedark
-colorscheme onedark
+"colorscheme onedark
+
+"CPP Enhanced-------------------------------------------------------
+
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
 
 " vim-rainbow-------------------------------------------------------
 let g:rainbow_active = 1
@@ -170,7 +177,8 @@ set nobackup
 set nowritebackup
 
 " Give more space for displaying messages.
-set cmdheight=2
+"set cmdheight=2
+set cmdheight=1
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -306,6 +314,10 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 nmap <silent> gc :CclsCalleeHierarchy<CR>
 nmap <silent> gx :CclsCallHierarchy<CR>
+
+"CPP-functions-----------------------------------------------------------------------
+"let @(desired key) = 'paste macro using \"(macro key)p' 
+"Macro to create a function block in cpp left pane from a prototype in hpp right pane
 
 "VIM----------------------------------------------------------------------------------
 " system clipboard in default register (unnamed)

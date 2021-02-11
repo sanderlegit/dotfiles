@@ -103,7 +103,7 @@ alias xampp="sudo /opt/lampp/manager-linux-x64.run &"
 function detatch() {
 	$1 &>/dev/null &; disown %1;
 }
-alias nobar=xprop -format _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS 2;
+alias nobar="xprop -format _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS 2;"
 alias lg="lazygit"
 alias v="nvim"
 #function sf() {
@@ -123,15 +123,14 @@ function m() {
 	cd $1 && ls -la;
 }
 
-export WIP="cpp_piscine"
-#export WIP_dir=~/Documents/codam/$WIP\_project/
-export WIP_dir=~/Documents/codam/$WIP/
+export WIP="philosophers"
+export WIP_dir=~/Documents/codam/$WIP\_project/
 source $WIP_dir\bash_functions
 alias work="cd $WIP_dir"
 
 #[[ $TMUX = "" ]] && export TERM="xterm-256color"
 
-export LANG=en_US.UTF-8
+export LANG="en_US.UTF-8"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -140,3 +139,7 @@ source $HOME/.brewconfig.zsh
 
 #Debug autocomplete
 # typeset -f -t _main_complete
+
+#caps lock as escape
+setxkbmap -option
+setxkbmap -option caps:escape
