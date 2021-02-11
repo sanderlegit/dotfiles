@@ -1,0 +1,77 @@
+{
+	"coc.preferences.formatOnSaveFiletypes": [
+		"css",
+		"markdown",
+		"javascript",
+		"graphql",
+		"html",
+		"yaml",
+		"json",
+		"python"
+	],
+	// python config
+	//"python.linting.enabled": true,
+	//"python.linting.pylintEnabled": true,
+	"snippets.ultisnips.directories": [
+		"UltiSnips",
+		"~/.config/nvim/utils/snips"
+	],
+	//"clangd.path": "/home/dries/.config/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin/clangd",
+	// explorer
+	"explorer.width": 30,
+	"explorer.icon.enableNerdfont": true,
+	"explorer.previewAction.onHover": false,
+	"explorer.file.showHiddenFiles": true,
+	"explorer.keyMappings": {
+		"<cr>": [
+			"expandable?",
+			"expand",
+			"open"
+		],
+		"v": "open:vsplit"
+	},
+	"languageserver": {
+		"ccls": {
+			"command": "ccls",
+			"filetypes": [
+				"c",
+				"cpp",
+				"objc",
+				"objcpp"
+			],
+			"rootPatterns": [
+				".ccls",
+				"compile_commands.json",
+				".vim/",
+				".git/",
+				".hg/"
+			],
+			"initializationOptions": {
+				"cache": {
+					"directory": "/tmp/ccls"
+				}
+			}
+		}
+	},
+	"clangd.path": "/home/dries/.config/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin/clangd",
+	"clangd.disableDiagnostics": true,
+	"coc.preferences.jumpCommand": "vsp"
+	// c
+	//"languageserver": {
+	//	"clangd": {
+	//		"command": "/home/dries/.config/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin/clangd",
+	//		"rootPatterns": [
+	//			"compile_flags.txt",
+	//			"compile_commands.json"
+	//		],
+	//		"filetypes": [
+	//			"c",
+	//			"cc",
+	//			"cpp",
+	//			"c++",
+	//			"objc",
+	//			"objcpp"
+	//		]
+	//	}
+	//}
+}
