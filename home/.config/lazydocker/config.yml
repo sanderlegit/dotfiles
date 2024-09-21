@@ -1,0 +1,9 @@
+customCommands:
+  containers:
+    - name: sh
+      attach: true
+      command: 'docker exec -it {{ .Container.ID }} /bin/sh'
+      serviceNames: []
+replacements:
+  imageNamePrefixes:
+    '592479854049.dkr.ecr.us-east-1.amazonaws.com': '<dev>'

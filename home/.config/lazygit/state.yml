@@ -1,0 +1,39 @@
+lastupdatecheck: 0
+recentrepos:
+    - /Users/dries/dotfiles
+    - /Users/dries/dev/auguria/repos/Auguria-Pipeline
+    - /Users/dries/dev/foresite/repos/chronicle_controllers_automation
+    - /Users/dries/dev/auguria/repos/Auguria-Pipeline/insights-engine/src/Log2Sim
+    - /Users/dries/dev/aphy/repos/EmailLabeler
+    - /Users/dries/dev/auguria/repos/Auguria-Pipeline/frontend-app/Auguria_app
+    - /Users/dries/dev/auguria/repos/Auguria-Pipeline/ontology-engine/auguria-ontology
+    - /Users/dries/dev/auguria/repos/Auguria-Pipeline/pipeline/ext/parquet-go
+    - /Users/dries/dev/auguria/repos/test/shared2
+    - /Users/dries/dev/auguria/repos/test/shared
+    - /Users/dries/dev/auguria/repos/infrastructure
+    - /Users/dries/dev/foresite/repos/cli
+    - /Users/dries/dev/unit6/repos/LogHealth_
+    - /Users/dries/dev/unit6/repos/LogHealth
+    - /Users/dries/art/repos/Blossom
+    - /opt/homebrew
+    - /Users/dries/.config/AstroNvim
+    - /Users/dries/dev/personal/corne-wireless-zmk-config
+    - /Users/dries/dev/personal/corne-wireless-zmk-config/zephyr
+    - /Users/dries/dev/foresite/repos/integration-services
+    - /Users/dries/dev/foresite/repos/terraform-gcp-global
+    - /Users/dries/dev/secrutiny/repos/chronicle_parsers
+    - /Users/dries/dev/unit6/nick_repos/python_to_go_PORT
+    - /Users/dries/dev/secrutiny/repos/pulumi
+    - /Users/dries/dev/secrutiny/repos/GCP_main
+    - /Users/dries/.local/share/lunarvim/lvim
+    - /Users/dries/dev/unit6/repos/whoishiringSrape
+startuppopupversion: 5
+lastversion: 0.42.0
+customcommandshistory: []
+hidecommandlog: false
+ignorewhitespaceindiffview: false
+diffcontextsize: 6
+localbranchsortorder: recency
+remotebranchsortorder: alphabetical
+gitlogorder: topo-order
+gitlogshowgraph: when-maximised

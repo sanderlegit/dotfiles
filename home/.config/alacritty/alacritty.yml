@@ -1,0 +1,348 @@
+# Alacritty config
+
+# {{{ env
+
+env:
+  # TERM: screen-256color #means dont have to pass env to tmux, but alacritty will echo cmd
+  # TERM: alacritty-256color
+  # TERM: alacritty
+  # TERM: tmux-256color
+  TERM: xterm-256color
+
+# }}} env
+# {{{ window
+
+#window:
+  #dimensions:
+    #columns: 140
+    #lines: 40
+
+  #padding:
+    #x: 0
+    #y: 0
+
+  #dynamic_padding: true
+  #decorations: buttonless
+  #startup_mode: Windowed
+
+#scrolling:
+  #history: 10000
+  #multiplier: 3
+  #scrolling_multiplier: 3
+
+
+font:
+
+  normal:
+    family: 'Liga SFMono Nerd Font'
+    # style: Light
+    style: Medium
+  bold:
+    style: Semibold
+  italic:
+    # style: Light Italic
+    style: Light
+  bold_italic:
+    style: Semibold Italic
+  size: 13
+
+  # normal:
+  #   # family: 'BlexMono Nerd Font Mono'
+  #   family: 'Monofur Nerd Font Mono'
+  #   style: Book
+  # bold:
+  #   family: 'Monofurbold Nerd Font Mono'
+  #   style: Book
+  # italic:
+  #   family: 'Monofuritalic Nerd Font Mono'
+  #   style: Book
+  # bold_italic:
+  #   style: Semibold Italic
+  # size: 17
+
+  # normal:
+  #   family: 'MonoLisa'
+  #   style: Thin
+  # bold:
+  #   style: Regular
+  # italic:
+  #   style: Light
+  # size: 14
+
+  # normal:
+  #   family: 'VictorMono Nerd Font Mono'
+  #   style: Regular
+  # bold:
+  #   style: Semibold
+  # italic:
+  #   style: Medium
+  #   # style: Text
+  # bold_italic:
+  #   style: Semibold Italic
+  # size: 14
+
+  # normal:
+  #   family: 'SpaceMono Nerd Font Mono'
+  #   style: Regular
+  # bold:
+  #   style: Semibold
+  # italic:
+  #   style: Regular Italic
+  #   # style: Text
+  # bold_italic:
+  #   style: Semibold Italic
+  # size: 14
+
+
+  offset:
+    y: 0
+    x: 0
+
+  # glyph_offset:
+  #   x: 0
+  #   y: 0
+
+
+window:
+  blur: true
+  decorations: none
+  opacity: 0.85
+  startup_mode: Maximized
+
+#shell:
+  #program: tmux
+
+# Colors
+# colors:
+#   # Default colors
+  # primary:
+  #   background: '#101010'
+  #   foreground: '#e5e1d8'
+
+#   # Normal colors
+  # normal:
+  #   black:   '#000000'
+  #   red:     '#f7786d'
+  #   green:   '#bde97c'
+  #   yellow:  '#efdfac'
+  #   blue:    '#6ebaf8'
+  #   magenta: '#ef88ff'
+  #   cyan:    '#90fdf8'
+  #   white:   '#e5e1d8'
+
+#   # Bright colors
+  # bright:
+  #   black:   '#b4b4b4'
+  #   red:     '#f99f92'
+  #   green:   '#e3f7a1'
+  #   yellow:  '#f2e9bf'
+  #   blue:    '#b3d2ff'
+  #   magenta: '#e5bdff'
+  #   cyan:    '#c2fefa'
+  #   white:   '#ffffff'
+
+# ! Purple my config; above this is standard config
+
+# colors:
+  # # Normal colors
+  # normal:
+  #   black:   '#000000'
+  #   red:     '#ff5555'
+  #   green:   '#50fa7b'
+  #   yellow:  '#f1fa8c'
+  #   blue:    '#caa9fa'
+  #   magenta: '#ff79c6'
+  #   cyan:    '#8be9fd'
+  #   white:   '#bfbfbf'
+
+  # # Bright colors
+  # bright:
+  #   black:   '#32302f'
+  #   red:     '#fb4933'
+  #   green:   '#b8bb26'
+  #   yellow:  '#fabd2f'
+  #   blue:    '#83a598'
+  #   magenta: '#d3869b'
+  #   cyan:    '#3fd7e5'
+  #   white:   '#ffffc8'
+
+  # # Dim colors (Optional)
+  # dim:
+  #   black:   '#1d2021'
+  #   red:     '#421e1e'
+  #   green:   '#232b0f'
+  #   yellow:  '#4d3b27'
+  #   blue:    '#2b3c44'
+  #   magenta: '#4e3d45'
+  #   cyan:    '#205161'
+  #   white:   '#f4e8ba'
+
+#Orange theme
+# colors:
+#   primary:
+#     background: '#000000'
+#     foreground: '#d9b29e'
+#   cursor:
+#     text:       '#643725'
+#     cursor:     '#d9b29e'
+#   normal:
+#     black:      '#643725'
+#     red:        '#c74c00'
+#     green:      '#c63700'
+#     yellow:     '#e14200'
+#     blue:       '#ff5d02'
+#     magenta:    '#e34100'
+#     cyan:       '#fc5000'
+#     white:      '#d9b29e'
+#   bright:
+#     black:      '#977c6e'
+#     red:        '#c74c00'
+#     green:      '#c63700'
+#     yellow:     '#e14200'
+#     blue:       '#ff5d02'
+#     magenta:    '#e34100'
+#     cyan:       '#fc5000'
+#     white:      '#d9b29e'
+
+#Latest Light
+colors:
+  primary:
+    background: '#000000'
+    foreground: '#d9b29e'
+  cursor:
+    text:       '#643725'
+    cursor:     '#d9b29e'
+  normal:
+    black:      '#643725'
+    red:        '#c74c00'
+    green:      '#c63700'
+    yellow:     '#e14200'
+    blue:       '#ff5d02'
+    magenta:    '#e34100'
+    cyan:       '#fc5000'
+    white:      '#d9b29e'
+  bright:
+    black:      '#977c6e'
+    red:        '#c74c00'
+    green:      '#c63700'
+    yellow:     '#e14200'
+    blue:       '#ff5d02'
+    magenta:    '#e34100'
+    cyan:       '#fc5000'
+    white:      '#d9b29e'
+
+# }}} colors
+# {{{ mouse / cursor
+#
+# colors:
+#   primary:
+#     background: '0x000000'
+#     foreground: '0xD8DEE9'
+#   cursor:
+#     cursor: '0xff4151'
+#   normal:
+#     black:      '0x4C566A'
+#     red:        '0xBF616A'
+#     green:      '0xA3BE8C'
+#     yellow:     '0xEBCB8B'
+#     blue:       '0x81A1C1'
+#     magenta:    '0xB48EAD'
+#     cyan:       '0x88C0D0'
+#     white:      '0xE5E9F0'
+
+
+# mouse_bindings:
+#   - { mouse: Middle, action: PasteSelection }
+
+# mouse:
+  # double_click: { threshold: 300 }
+  # triple_click: { threshold: 300 }
+
+  # hide_when_typing: true
+
+  # url:
+  #   launcher:
+  #     program: open
+  #     args: []
+
+# selection:
+#   semantic_escape_chars: ',│`|:"'' ()[]{}<>'
+#   save_to_clipboard: true
+
+# dynamic_title: true
+
+# cursor:
+#   style: Block
+#   vi_mode_style: Beam
+#   unfocused_hollow: true
+
+# }}} mouse / cursor
+# {{{ other
+
+live_config_reload: true
+# enable_experimental_conpty_backend: false
+
+# alt_send_esc: true
+
+# visual_bell:
+#   animation: EaseOutExpo
+#   duration: 0
+#   color: "#ffffff"
+
+# debug:
+  # render_timer: false
+#   persistent_logging: false
+#   log_level: Warn
+#   print_events: false
+#   ref_test: false
+
+# }}} other
+# {{{ keybindings
+
+# key_bindings:
+#   - { key: H, mods: Command, action: None }
+#   - { key: Key3, mods: Alt, chars: "\x23" }
+#   - {
+#       key: N,
+#       mods: Command,
+#       command: { program: "open", args: ["-n", "/Applications/Alacritty.app"] },
+#     }
+#   - { key: J, mods: Alt, chars: "\x1bj" }
+#   - { key: K, mods: Alt, chars: "\x1bk" }
+#   - { key: H, mods: Alt, chars: "\x1bh" }
+
+# }}} keybindings
+key_bindings:
+ # General Keybinds
+  - { key: Paste,                                action: Paste          }
+  - { key: Copy,                                 action: Copy           }
+  - { key: PageUp,                               action: ScrollPageUp,  }
+  - { key: PageDown,                             action: ScrollPageDown }
+  # - { key: PageUp,    mods: Shift,   mode: ~Alt, action: ScrollPageUp,  }
+  # - { key: PageDown,  mods: Shift,   mode: ~Alt, action: ScrollPageDown }
+  - { key: Home,      mods: Shift,   mode: ~Alt, action: ScrollToTop,   }
+  - { key: End,       mods: Shift,   mode: ~Alt, action: ScrollToBottom }
+
+  # MacOS Keybinds
+  - { key: Key0,   mods: Command,            action: ResetFontSize    }
+  - { key: Equals, mods: Command,            action: IncreaseFontSize }
+  - { key: Plus,    mods: Command,            action: IncreaseFontSize }
+  - { key: Minus,  mods: Command,            action: DecreaseFontSize }
+  - { key: K,      mods: Command,            action: ClearHistory     }
+  - { key: V,      mods: Command,            action: Paste            }
+  - { key: C,      mods: Command,            action: Copy             }
+  - { key: H,      mods: Command,            action: Hide             }
+  - { key: M,      mods: Command,            action: Minimize         }
+  - { key: Q,      mods: Command,            action: Quit             }
+  - { key: W,      mods: Command,            action: Quit             }
+  - { key: N,      mods: Command,            action: SpawnNewInstance }
+  - { key: F,      mods: Command|Control,    action: ToggleFullscreen }
+
+
+hints:
+  enabled:
+    - regex: '[a-zA-Z0-9\_\-\.\/]+\.[a-zA-Z]{1,4}\b'
+      command: 'lvim'
+      post_processing: true
+  alphabet: 'asdfghjkl;qwertyuiopzxcvbnm,'
+  post_processing: true

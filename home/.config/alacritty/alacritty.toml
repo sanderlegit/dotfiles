@@ -1,0 +1,160 @@
+live_config_reload = true
+
+[colors.bright]
+black = "#977c6e"
+blue = "#ff5d02"
+cyan = "#fc5000"
+green = "#c63700"
+magenta = "#e34100"
+red = "#c74c00"
+white = "#d9b29e"
+yellow = "#e14200"
+
+[colors.cursor]
+cursor = "#d9b29e"
+text = "#643725"
+
+[colors.normal]
+black = "#643725"
+blue = "#ff5d02"
+cyan = "#fc5000"
+green = "#c63700"
+magenta = "#e34100"
+red = "#c74c00"
+white = "#d9b29e"
+yellow = "#e14200"
+
+[colors.primary]
+background = "#000000"
+foreground = "#d9b29e"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 13
+
+[font.bold]
+style = "Semibold"
+
+[font.bold_italic]
+style = "Semibold Italic"
+
+[font.italic]
+style = "Light"
+
+[font.normal]
+family = "Liga SFMono Nerd Font"
+style = "Medium"
+
+[font.offset]
+x = 0
+y = 0
+
+[hints]
+alphabet = "asdfghjkl;qwertyuiopzxcvbnm,"
+# post_processing = true
+
+[[hints.enabled]]
+command = "lvim"
+post_processing = true
+regex = '[a-zA-Z0-9\_\-\.\/]+\.[a-zA-Z]{1,4}\b'
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Paste"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "Copy"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key = "PageUp"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key = "PageDown"
+
+[[keyboard.bindings]]
+action = "ScrollToTop"
+key = "Home"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToBottom"
+key = "End"
+mode = "~Alt"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "ClearHistory"
+key = "K"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Hide"
+key = "H"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Minimize"
+key = "M"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Quit"
+key = "Q"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Quit"
+key = "W"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F"
+mods = "Command|Control"
+
+[window]
+blur = true
+decorations = "none"
+opacity = 0.80
+startup_mode = "Maximized"
