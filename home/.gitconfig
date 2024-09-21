@@ -1,0 +1,30 @@
+[user]
+	email = sanderlegit@gmail.com
+	name = dries
+	signingKey = ""
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[core]
+	excludesfile = /Users/dries/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Users/dries/Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/dries/.stCommitMsg
+	gpgSign = false
+[gpg]
+	format = openpgp
+	program = gpg
+[tag]
+	forceSignAnnotated = false
+[gpg "ssh"]
+	program = ssh-keygen
+	allowedSignersFile = ""
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/

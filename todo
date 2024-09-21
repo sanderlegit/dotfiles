@@ -1,5 +1,0 @@
-add coc.json/config
-add tmux.conf
-add tmux.conf.local
-	https://github.com/gpakosz/.tmux
-add .fzf / fzf config
