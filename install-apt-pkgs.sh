@@ -63,6 +63,11 @@ brew install pyenv
 brew tap nats-io/nats-tools
 brew install nats-io/nats-tools/nats
 
+brew install protobuf
+
+python3 -m venv ~/pyenv-default
+echo "python3 -m venv ~/pyenv-default" >> ~/.zshconf
+
 # Docker
 ## Add Docker's official GPG key:
 sudo apt-get update
