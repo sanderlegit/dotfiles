@@ -34,18 +34,26 @@ sudo apt-get -y install neovim
 # curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 # sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 
+
 # Brew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/$USER/.zshrc
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 brew install minikube
-brew install neovim
 brew install awscli
-brew install lazygit
 brew install helm
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
+brew install protobuf
+pipx install poetry
+brew install pyenv
+
+brew install neovim
+brew install lazygit
 brew install fzf
 brew install mosh
+brew install ripgrep
 
 curl https://getcroc.schollz.com | bash
 
@@ -56,14 +64,6 @@ sudo apt -y install pipx
 pipx ensurepath
 
 source ~/.zshrc
-
-pipx install poetry
-brew install pyenv
-
-brew tap nats-io/nats-tools
-brew install nats-io/nats-tools/nats
-
-brew install protobuf
 
 python3 -m venv ~/pyenv-default
 echo "python3 -m venv ~/pyenv-default" >> ~/.zshconf
@@ -92,6 +92,17 @@ docker run hello-world
 
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
+
+# K8S: 
+## Set appropriate File limits
+### Increase instances (128 -> 512)
+sudo sysctl fs.inotify.max_user_instances=512
+
+### Increase open files (1024 -> 65535)
+sudo tee -a /etc/security/limits.conf << EOF
+*       soft    nofile  65535
+*       hard    nofile  65535
+EOF
 
 lscpu
 
