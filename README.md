@@ -5,12 +5,6 @@
 - Add AstroNvim install plus config move `/Users/dries/.config`
   - https://docs.astronvim.com/
 
-brew install ripgrep
-brew install fd
-
-
-brew install libpq
-brew link --force libpq
 
 ```
  curl -sL https://istio.io/downloadIstioctl | sh -
