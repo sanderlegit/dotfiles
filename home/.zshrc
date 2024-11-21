@@ -544,6 +544,13 @@ export LANGUAGE=en_US.UTF-8
 alias td="avim ~/.todo.md"
 alias cmds="avim ~/.cmds.md"
 
+CUDA_HOME=/usr/local/cuda
+PATH=${CUDA_HOME}/bin${PATH:+:${PATH}}
+LD_LIBRARY_PATH=${CUDA_HOME}/lib64 ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export LD_LIBRARY_PATH
+export CUDA_HOME
+export PATH
+
 # Add this to your ~/.zshrc
 function dirsize() {
     local target_dir="${1:-.}"  # Use passed path or current dir (.)
