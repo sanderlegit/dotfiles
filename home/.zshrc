@@ -1,6 +1,11 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+export PATH=/home/dries/go/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin
+export PATH=/home/dries/go/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/usr/local/go/bin:/home/dries/go/bin
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -116,8 +121,8 @@ source $ZSH/oh-my-zsh.sh
 ### Terminal Fixes
 
 # Italics
-alias tm="env TERM=screen-256color tmux"
 alias tx="env TERM=screen-256color tmux"
+alias tm="env TERM=xterm-256color tmux"
 
 
 ### QOL Shortcuts
@@ -185,7 +190,7 @@ echo  ps -vmp $PIDS
 # Rust
 # libpq, for certh postgres
 export RUSTFLAGS="-L/opt/homebrew/opt/libpq/lib"
-source $HOME/.cargo/env
+# source $HOME/.cargo/env
 
 # GCP
 # PATH for the Google Cloud SDK.
@@ -200,7 +205,7 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 # AZ CLI 
 # HOMEBREW_PREFIX="$(brew --prefix)"
 HOMEBREW_PREFIX="/opt/homebrew"
-source "$HOMEBREW_PREFIX/etc/bash_completion.d/az"
+# source "$HOMEBREW_PREFIX/etc/bash_completion.d/az"
 
 #Protoc
 export PATH="/opt/homebrew/opt/protobuf@3/bin:$PATH"
@@ -397,7 +402,7 @@ help() {
   grep -A1 '# HELP: ' ~/.zshrc
 }
 
-export EDITOR=lvim
+export EDITOR=avim
 
 function chron() {
     local inputString="$1"
@@ -476,7 +481,7 @@ dotenv() {
 	export $(cat .env | grep -v ^# | xargs);
 }
 
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"
 
 my-backward-word () {
     # Add colon, comma, single/double quotes to word chars
@@ -506,6 +511,50 @@ alias z="zoxide"
 alias red="open /System/Library/CoreServices/ScreenSaverEngine.app"
 
 # Kubectl
-source <(kubectl completion zsh)
 
 alias k9s='k9s -n all'
+
+
+source <(fzf --zsh)
+
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+source <(kubectl completion zsh)
+
+# Created by `pipx` on 2024-09-21 22:44:15
+export PATH="$PATH:$HOME/.local/bin"
+alias tfswitch="sudo /home/dries/.local/bin/tfswitch -i $HOME/.local/bin"
+
+source ~/pyevn-default/bin/activate
+
+export PATH=$HOME/.istioctl/bin:$PATH
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8	
+
+alias td="avim ~/.todo.md"
+alias cmds="avim ~/.cmds.md"
+
+# Add this to your ~/.zshrc
+function dirsize() {
+    local target_dir="${1:-.}"  # Use passed path or current dir (.)
+    local abs_path="$(cd "$target_dir" 2>/dev/null && pwd)"
+    
+    if [ $? -ne 0 ]; then
+        echo "Error: Directory '$target_dir' does not exist or is not accessible"
+        return 1
+    fi
+    
+    echo "Size breakdown for: $abs_path"
+    echo "----------------------------------------"
+    (cd "$abs_path" && du -sh -- */ 2>/dev/null) | sort -hr
+}
