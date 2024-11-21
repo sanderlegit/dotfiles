@@ -27,8 +27,6 @@ sudo tar -xzvf /tmp/go.tar.gz -C /usr/local
 echo export PATH=$HOME/go/bin:/usr/local/go/bin:$PATH >> ~/.zshrc
 go version
 
-go install github.com/derailed/k9s@latest
-
 # Neovim
 brew install neovim
 # AstroNvim
@@ -38,38 +36,6 @@ git clone --depth 1 https://github.com/AstroNvim/template ~/.config/AstroNvim
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/$USER/.zshrc
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# Packages
-brew install minikube
-brew install awscli
-brew install helm
-brew tap nats-io/nats-tools
-brew install nats-io/nats-tools/nats
-brew install protobuf
-pipx install poetry
-brew install pyenv
-
-brew install node
-brew install lazygit
-brew install fzf
-brew install mosh
-brew install ripgrep
-brew install fd
-brew install libpq
-brew install bottom
-brew install dive
-brew link --force libpq
-
-curl https://getcroc.schollz.com | bash
-
-sudo apt -y install nodejs
-sudo apt -y install npm
-sudo apt -y install pipx
-sudo apt -y install zip
-pipx ensurepath
-echo "python3 -m venv ~/main" >> ~/.zshconf
-
-source ~/.zshrc
 
 # Docker
 ## Add Docker's official GPG key:
@@ -95,6 +61,46 @@ docker run hello-world
 
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
+
+# 
+
+# Packages
+go install github.com/derailed/k9s@latest
+
+brew install minikube
+brew install awscli
+brew install helm
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
+brew install protobuf
+pipx install poetry
+brew install pyenv
+
+brew install node
+brew install lazygit
+brew install fzf
+brew install mosh
+brew install ripgrep
+brew install fd
+brew install libpq
+brew install bottom
+brew install dive
+brew link --force libpq
+
+
+
+
+curl https://getcroc.schollz.com | bash
+
+sudo apt -y install nodejs
+sudo apt -y install npm
+sudo apt -y install pipx
+sudo apt -y install zip
+pipx ensurepath
+python3 -m venv ~/pyenv-default
+echo "python3 -m venv ~/pyenv-default" >> ~/.zshconf
+
+source ~/.zshrc
 
 # K8S: 
 ## Set appropriate File limits

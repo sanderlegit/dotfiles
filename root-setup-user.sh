@@ -34,6 +34,7 @@ sed -i 's/^#*PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/ssh
 sed -i 's/^#*ChallengeResponseAuthentication yes/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
 sed -i 's/^#*UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
 
+# export NEW_USER=dries
 sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/.ssh
 sudo passwd -u $NEW_USER
 sudo passwd $NEW_USER
