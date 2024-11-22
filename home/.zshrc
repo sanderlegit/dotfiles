@@ -3,11 +3,12 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-export PATH=/home/dries/go/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin
 export PATH=/home/dries/go/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/usr/local/go/bin:/home/dries/go/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
+
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -75,7 +76,12 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker-compose)
+plugins=(
+    git 
+    docker-compose
+    vi-mode
+    colored-man-pages
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -119,11 +125,6 @@ source $ZSH/oh-my-zsh.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ### Terminal Fixes
-
-# Italics
-alias tx="env TERM=screen-256color tmux"
-alias tm="env TERM=xterm-256color tmux"
-
 
 ### QOL Shortcuts
 
@@ -256,19 +257,53 @@ for file in *; do
   fi
 done"
 
+# New vi
+# VI mode and prompt configuration
+function prompt_status() {
+    # Define colors using %F for foreground
+    local user_host='%F{green}%n@%m%f'
+    local current_dir='%F{cyan}%~%f'
+    local git_branch='$(git_prompt_info)'
+    local timestamp='%F{yellow}[%D{%H:%M:%S}]%f'
+    local vi_mode='${${KEYMAP/vicmd/"%F{red}N%f"}/(main|viins)/"%F{blue}I%f"}'
+    local prompt_char='%F{magenta}➜%f'
 
-bindkey 'jk' vi-cmd-mode
-PS1+='${VIMODE}'
-#   '$' for normal insert mode
-#   a big red 'I' for command mode - to me this is 'NOT insert' because red
+    # Git prompt settings
+    ZSH_THEME_GIT_PROMPT_PREFIX=" %F{blue}git:(%f%F{red}"
+    ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
+    ZSH_THEME_GIT_PROMPT_DIRTY="%F{blue}) %F{yellow}✗%f"
+    ZSH_THEME_GIT_PROMPT_CLEAN="%F{blue})%f"
+
+    # Set the prompt
+    PS1="${timestamp} ${user_host} ${current_dir}${git_branch} ${vi_mode} ${prompt_char} "
+}
+
+# Initialize the prompt
 function zle-line-init zle-keymap-select {
-    DOLLAR='%B%F{green}$%f%b '
-    GIANT_I='%B%F{red}N%f%b '
-    VIMODE="${${KEYMAP/vicmd/$GIANT_I}/(main|viins)/$DOLLAR}"
+    prompt_status
     zle reset-prompt
 }
+
+# Register the widgets
 zle -N zle-line-init
 zle -N zle-keymap-select
+
+# Vi mode settings
+bindkey 'jk' vi-cmd-mode
+KEYTIMEOUT=20  # Reduces delay when typing 'jk'
+# Old vi
+# bindkey 'jk' vi-cmd-mode
+# PS1+='${VIMODE}'
+# #   '$' for normal insert mode
+# #   a big red 'I' for command mode - to me this is 'NOT insert' because red
+# function zle-line-init zle-keymap-select {
+#     DOLLAR='%B%F{green}$%f%b '
+#     GIANT_I='%B%F{red}N%f%b '
+#     VIMODE="${${KEYMAP/vicmd/$GIANT_I}/(main|viins)/$DOLLAR}"
+#     zle reset-prompt
+# }
+# zle -N zle-line-init
+# zle -N zle-keymap-select
 
 replace_strings() {
     # Define the colors
@@ -546,8 +581,8 @@ alias cmds="avim ~/.cmds.md"
 
 CUDA_HOME=/usr/local/cuda
 PATH=${CUDA_HOME}/bin${PATH:+:${PATH}}
-LD_LIBRARY_PATH=${CUDA_HOME}/lib64 ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-export LD_LIBRARY_PATH
+# LD_LIBRARY_PATH=${CUDA_HOME}/lib64 ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+# export LD_LIBRARY_PATH
 export CUDA_HOME
 export PATH
 
@@ -565,3 +600,4 @@ function dirsize() {
     echo "----------------------------------------"
     (cd "$abs_path" && du -sh -- */ 2>/dev/null) | sort -hr
 }
+
