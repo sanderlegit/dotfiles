@@ -171,10 +171,10 @@ keybinds clear-defaults=true {
         bind "Ctrl s" { SwitchToMode "scroll"; }
     }
     shared_except "locked" "tab" {
-        bind "Ctrl j" { SwitchToMode "tab"; }
+        bind "Ctrl k" { SwitchToMode "tab"; }
     }
     shared_except "locked" "pane" {
-        bind "Ctrl k" { SwitchToMode "pane"; }
+        bind "Ctrl j" { SwitchToMode "pane"; }
     }
     shared_except "locked" "resize" {
         bind "Ctrl n" { SwitchToMode "resize"; }
