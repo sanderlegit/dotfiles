@@ -8,7 +8,7 @@ export PATH=/home/dries/go/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin:
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-
+. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -128,7 +128,7 @@ source $ZSH/oh-my-zsh.sh
 
 ### QOL Shortcuts
 
-alias zshconf="avim ~/.zshrc; source ~/.zshrc"
+alias zshconf="hx ~/.zshrc; source ~/.zshrc"
 
 alias llt="ls -lat"
 
@@ -222,8 +222,12 @@ export PATH="$CONDA_PREFIX/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/opt/homebrew/Cellar/bash-language-server/2.0.0/:$PATH"
 export PATH="/opt/homebrew/Cellar/csvkit/1.0.7/bin/:$PATH"
-export PATH="$HOME/go/bin/:$PATH"
 
+# Add Go bin to PATH
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+export PATH=~/.npm-global/bin:$PATH
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -437,7 +441,7 @@ help() {
   grep -A1 '# HELP: ' ~/.zshrc
 }
 
-export EDITOR=avim
+export EDITOR=hx
 
 function chron() {
     local inputString="$1"
@@ -576,8 +580,8 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8	
 
-alias td="avim ~/.todo.md"
-alias cmds="avim ~/.cmds.md"
+alias td="hx ~/.todo.md"
+alias cmds="hx ~/.cmds.md"
 
 CUDA_HOME=/usr/local/cuda
 PATH=${CUDA_HOME}/bin${PATH:+:${PATH}}
