@@ -1,1 +1,7 @@
+theme = "base16_transparent"
 
+[editor]
+true-color = true
+
+[editor.file-picker]
+hidden = false
