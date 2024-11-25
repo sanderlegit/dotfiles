@@ -131,6 +131,28 @@ keybinds clear-defaults=true {
         }
     }
     shared_among "normal" "locked" {
+        // Opens fzf in a floating pane, gets the file path, and opens it in helix
+        bind "Ctrl n" {
+            NewPane "Right"; 
+            FocusNextPane;
+            // Open a floating pane with fzf
+            // Run "sh" "-c" "file=$(find . -type f | fzf --height 40% --reverse); if [ -n \"$file\" ]; then echo $file > /tmp/fzf_result; fi" {
+                // floating true
+            // }
+            // Close the floating pane after selection
+            // CloseFocus
+            // Write the :open command
+            // WriteChars ":open "
+            // Append the selected file path
+            // Run "sh" "-c" "if [ -f /tmp/fzf_result ]; then cat /tmp/fzf_result; rm /tmp/fzf_result; fi" {
+                // floating true
+            // }
+            // Close the temporary floating pane
+            // CloseFocus
+            // Send Enter to execute the command in helix
+            // Write 0x0a
+            write-chars "wow"
+        }
         bind "Ctrl Shift left" { MoveFocusOrTab "left"; }
         bind "Ctrl Shift down" { MoveFocus "down"; }
         bind "Ctrl Shift up" { MoveFocus "up"; }
@@ -149,6 +171,7 @@ keybinds clear-defaults=true {
         bind "Ctrl Shift n" { NewPane; }
         bind "Ctrl Shift o" { MoveTab "right"; }
     }
+
     shared_except "locked" {
         bind "Ctrl l" {
             LaunchOrFocusPlugin "session-manager" {
@@ -176,9 +199,9 @@ keybinds clear-defaults=true {
     shared_except "locked" "pane" {
         bind "Ctrl j" { SwitchToMode "pane"; }
     }
-    shared_except "locked" "resize" {
-        bind "Ctrl n" { SwitchToMode "resize"; }
-    }
+    // shared_except "locked" "resize" {
+    //     bind "Ctrl n" { SwitchToMode "resize"; }
+    // }
     // shared_except "locked" "scroll" "search" "tmux" {
     //     bind "Ctrl b" { SwitchToMode "tmux"; }
     // }
