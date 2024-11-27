@@ -2,6 +2,37 @@ theme = "base16_transparent"
 
 [editor]
 true-color = true
+idle-timeout = 0
+gutters = ["diff", "diagnostics", "line-numbers", "spacer"]
 
 [editor.file-picker]
 hidden = false
+
+[editor.lsp]
+display-messages = true
+
+[editor.smart-tab]
+enable = true
+supercede-menu = false
+
+[editor.indent-guides]
+render = true
+character = "▏" # Some characters that work well: "▏", "┆", "┊", "⸽"
+skip-levels = 1
+
+[editor.soft-wrap]
+enable = true
+max-wrap = 25 # increase value to reduce forced mid-word wrapping
+max-indent-retain = 0
+# wrap-indicator = ""  # set wrap-indicator to "" to hide it
+
+[keys.normal]
+tab = "move_parent_node_end"
+S-tab = "move_parent_node_start"
+
+[keys.insert]
+S-tab = "move_parent_node_start"
+
+[keys.select]
+tab = "extend_parent_node_end"
+S-tab = "extend_parent_node_start"
