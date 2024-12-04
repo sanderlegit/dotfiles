@@ -621,4 +621,23 @@ source /home/dries/.config/broot/launcher/bash/br
 
 alias br="broot"
 
+function killold() {
+    local search_term=$1
+    if [[ -z $search_term ]]; then
+        echo "Usage: killold <search_term>"
+        return 1
+    fi
 
+    echo "Will kill these processes:"
+    ps -eo pid,etime,cmd | grep $search_term | grep -v grep
+    echo "\nProceed with kill? [y/N] "
+    read -q response
+    echo
+    
+    if [[ $response =~ ^[Yy]$ ]]; then
+        echo "Killing processes..."
+        ps -eo pid,etime,cmd | grep $search_term | grep -v grep | awk '{print $1}' | xargs kill
+    else
+        echo "Operation cancelled"
+    fi
+}

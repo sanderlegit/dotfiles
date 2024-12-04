@@ -1,0 +1,27 @@
+# $XDG_DATA_HOME/k9s/hotkeys.yaml
+hotKeys:
+  # All pods in default namespace (0)
+
+  # Pipeline namespace pods (1)
+  'shift-1':
+    shortCut: 'Shift-1'
+    description: View pods in pipeline namespace
+    command: pods -n pipeline
+
+  # Pipeline namespace deployments (2)
+  'shift-2':
+    shortCut: 'Shift-2'
+    description: View deployments in pipeline namespace
+    command: deployments -n pipeline
+
+  # All pods across namespaces (3)
+  'shift-3':
+    shortCut: 'Shift-3'
+    description: View all pods
+    command: pods -n all
+
+  # All deployments across namespaces (4)
+  'shift-4':
+    shortCut: 'Shift-4'
+    description: View all deployments
+    command: deployments -n all
