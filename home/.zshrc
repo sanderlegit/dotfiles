@@ -641,3 +641,8 @@ function killold() {
         echo "Operation cancelled"
     fi
 }
+alias zz="zellij"
+
+# Gh Cli
+export GH_PAGER=cat
+eval "$(gh completion -s zsh)"
