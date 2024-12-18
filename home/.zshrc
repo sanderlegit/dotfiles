@@ -441,7 +441,26 @@ help() {
   grep -A1 '# HELP: ' ~/.zshrc
 }
 
-export EDITOR=hx
+export ZELLIX_MOD="$HOME/.dotfiles/zellix"
+alias zx="nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example"
+
+function fw() {
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+INITIAL_QUERY="${*:-}"
+fzf --ansi --disabled --query "$INITIAL_QUERY" \
+    --bind "start:reload:$RG_PREFIX {q}" \
+    --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+    --delimiter : \
+    --preview 'bat --color=always {1} --highlight-line {2}' \
+    --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+    --bind "enter:become($EDITOR {1}:{2}:{3})"
+}
+
+# export EDITOR=hx
+export EDITOR="nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example"
+
+source /home/dries/.config/broot/launcher/bash/br
+
 
 function chron() {
     local inputString="$1"
@@ -605,22 +624,6 @@ function dirsize() {
     (cd "$abs_path" && du -sh -- */ 2>/dev/null) | sort -hr
 }
 
-function fw() {
-    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-INITIAL_QUERY="${*:-}"
-fzf --ansi --disabled --query "$INITIAL_QUERY" \
-    --bind "start:reload:$RG_PREFIX {q}" \
-    --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-    --delimiter : \
-    --preview 'bat --color=always {1} --highlight-line {2}' \
-    --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-    --bind 'enter:become(hx {1} +{2})'
-}
-
-source /home/dries/.config/broot/launcher/bash/br
-
-alias br="broot"
-
 function killold() {
     local search_term=$1
     if [[ -z $search_term ]]; then
@@ -641,11 +644,7 @@ function killold() {
         echo "Operation cancelled"
     fi
 }
-alias zz="zellij"
 
 # Gh Cli
 export GH_PAGER=cat
 eval "$(gh completion -s zsh)"
-
-export ZELLIX_MOD="$HOME/.dotfiles/zellix"
-alias zx="nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example"
