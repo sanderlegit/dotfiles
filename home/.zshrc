@@ -441,6 +441,11 @@ help() {
   grep -A1 '# HELP: ' ~/.zshrc
 }
 
+function edit() {
+    $(which nu) $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
+}
+export EDITOR=edit
+
 export ZELLIX_MOD="$HOME/.dotfiles/zellix"
 alias zx="nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example"
 
@@ -456,10 +461,31 @@ fzf --ansi --disabled --query "$INITIAL_QUERY" \
     --bind "enter:become($EDITOR {1}:{2}:{3})"
 }
 
-# export EDITOR=hx
-export EDITOR="nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example"
 
 source /home/dries/.config/broot/launcher/bash/br
+
+function ex() {
+    selected_file=$(br)
+    
+    # Check if we got a valid file
+    if [ $? -eq 0 ] && [ -n "$selected_file" ]; then
+        if [ -f "$selected_file" ]; then
+            ${EDITOR:-vim} "$selected_file"
+        else
+            echo "Error: Selected path is not a regular file: $selected_file"
+            return 1
+        fi
+    else
+        echo "No file selected or broot was cancelled"
+        return 1
+    fi
+}
+
+
+# function ex() {
+#     FILE=$(br)
+#     $EDITOR $FILE
+# }
 
 
 function chron() {
@@ -599,8 +625,8 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8	
 
-alias td="hx ~/.todo.md"
-alias cmds="hx ~/.cmds.md"
+alias td="$EDITOR ~/.todo.md"
+alias cmds="$EDITOR ~/.cmds.md"
 
 CUDA_HOME=/usr/local/cuda
 PATH=${CUDA_HOME}/bin${PATH:+:${PATH}}
