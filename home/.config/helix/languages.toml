@@ -1,13 +1,13 @@
 [[language]]
 name = "rust"
 auto-format = true
-indent = { tab-width = 4, unit = "\t" }
+indent = { tab-width = 2, unit = "\t" }
 
 [[language]]
 name = "go"
 auto-format = true
 formatter = { command = "goimports" }
-indent = { tab-width = 4, unit = "\t" }
+indent = { tab-width = 2, unit = "\t" }
 
 [language-server.rust-analyzer.config.check]
 command = "clippy"
