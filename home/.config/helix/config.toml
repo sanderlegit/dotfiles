@@ -36,3 +36,11 @@ S-tab = "move_parent_node_start"
 [keys.select]
 tab = "extend_parent_node_end"
 S-tab = "extend_parent_node_start"
+
+[keys.normal.space.f]
+f = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/broot.nu"
+w = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/fzf.nu"
+
+[keys.normal.space.l]
+a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
+# b = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/bacon.nu"

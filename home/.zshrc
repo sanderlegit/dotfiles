@@ -646,3 +646,6 @@ alias zz="zellij"
 # Gh Cli
 export GH_PAGER=cat
 eval "$(gh completion -s zsh)"
+
+export ZELLIX_MOD="$HOME/.dotfiles/zellix"
+alias zx="nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example"
