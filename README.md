@@ -89,3 +89,5 @@ minikube addons enable metrics-server
 
 # nvidia gpu minikube
 https://minikube.sigs.k8s.io/docs/tutorials/nvidia/
+
+brew install nushell

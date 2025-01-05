@@ -141,13 +141,8 @@ alias lg="lazygit"
 alias ld="lazydocker"
 # alias air='~/.air'
 
-export KEY_DIR=~/dev/secrutiny/keys
-export SUY=~/dev/secrutiny/
-alias suy=~/dev/secrutiny/
-
 alias nosleep="sudo pmset -b disablesleep 1"
 alias yessleep="sudo pmset -b disablesleep 0"
-
 
 alias tp="touch package.json"
 
@@ -269,7 +264,8 @@ function prompt_status() {
     local current_dir='%F{cyan}%~%f'
     local git_branch='$(git_prompt_info)'
     local timestamp='%F{yellow}[%D{%H:%M:%S}]%f'
-    local vi_mode='${${KEYMAP/vicmd/"%F{red}N%f"}/(main|viins)/"%F{blue}I%f"}'
+    # Only include space after vi_mode if it's not empty
+    local vi_mode='${${KEYMAP/vicmd/"%F{red}N%f "}/(main|viins)/"%F{blue}I%f "}'
     local prompt_char='%F{magenta}➜%f'
 
     # Git prompt settings
@@ -278,11 +274,15 @@ function prompt_status() {
     ZSH_THEME_GIT_PROMPT_DIRTY="%F{blue}) %F{yellow}✗%f"
     ZSH_THEME_GIT_PROMPT_CLEAN="%F{blue})%f"
 
-    # Set the prompt
-    PS1="${timestamp} ${user_host} ${current_dir}${git_branch} ${vi_mode} ${prompt_char} "
+    # Set the prompt with newline before prompt character
+    PROMPT="${timestamp} ${user_host} ${current_dir}${git_branch} ${vi_mode}
+${prompt_char} "
 }
 
 # Initialize the prompt
+prompt_status
+
+# Set up vi-mode indicators
 function zle-line-init zle-keymap-select {
     prompt_status
     zle reset-prompt
@@ -295,6 +295,9 @@ zle -N zle-keymap-select
 # Vi mode settings
 bindkey 'jk' vi-cmd-mode
 KEYTIMEOUT=20  # Reduces delay when typing 'jk'
+
+# Make sure vi-mode is enabled
+bindkey -v
 # Old vi
 # bindkey 'jk' vi-cmd-mode
 # PS1+='${VIMODE}'
@@ -486,16 +489,6 @@ function ex() {
 #     FILE=$(br)
 #     $EDITOR $FILE
 # }
-
-
-function chron() {
-    local inputString="$1"
-    local baseURL="https://mercury-europe-west2.backstory.chronicle.security/rawLogScanResults?searchQuery=SUBSTITUTEHERE&cs=0&sources=Apache,Arcsight%20CEF,Auth0,Azure%20AD%20Organizational%20Context,Azure%20DevOps%20Audit,CrowdStrike%20Falcon,CSG%20Singleview,CSV%20Custom%20IOC,Digital%20Shadows%20Indicators,Elastic%20Windows%20Event%20Log%20Beats,F5%20ASM,FortiGate,Juniper,Linux%20Auditing%20System%20(AuditD),Microsoft%20Defender%20for%20Endpoint,Microsoft%20Graph%20API%20Alerts,Netscout,Netscout%20Arbor%20Sightline,Office%20365,Onesys,Osirium%20PAM,Pulse%20Secure,Rapid7%20Insight,Shrubbery%20TACACS%2B,Symantec%20Web%20Security%20Service,UDM,Unix%20system,VMware%20ESXi&regex=1&referenceTime=2023-08-17T10:25:00.000Z&startTime=2023-07-19T00:00:00.000Z&endTime=2023-07-21T23:30:00.000Z&selectedList=RawLogScanViewTimeline"
-
-    # Substitute the input string in place of the placeholder and open the URL in Brave browser.
-    local finalURL=$(echo "$baseURL" | sed "s/SUBSTITUTEHERE/${inputString}/")
-    open -a "Brave Browser" "$finalURL"
-}
 
 lights() {
     # Check if Vivid is running
