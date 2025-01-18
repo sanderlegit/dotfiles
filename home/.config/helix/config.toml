@@ -34,6 +34,9 @@ S-tab = "move_parent_node_start"
 S-tab = "move_parent_node_start"
 C-a = "completion"
 
+[keys.insert.j]
+k = "normal_mode" # Maps `jk` to exit insert mode
+
 [keys.select]
 tab = "extend_parent_node_end"
 S-tab = "extend_parent_node_start"
