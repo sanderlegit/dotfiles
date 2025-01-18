@@ -91,3 +91,11 @@ minikube addons enable metrics-server
 https://minikube.sigs.k8s.io/docs/tutorials/nvidia/
 
 brew install nushell
+# add broot config
+
+# add sso cli
+brew install aws-sso-cli
+https://synfinatic.github.io/aws-sso-cli/v1.17.0/quickstart/
+
+npm install -g typescript typescript-language-server
+

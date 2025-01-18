@@ -32,6 +32,7 @@ S-tab = "move_parent_node_start"
 
 [keys.insert]
 S-tab = "move_parent_node_start"
+C-a = "completion"
 
 [keys.select]
 tab = "extend_parent_node_end"
@@ -39,6 +40,7 @@ S-tab = "extend_parent_node_start"
 
 [keys.normal.space.f]
 f = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/broot.nu"
+e = "file_picker"
 w = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/fzf.nu"
 
 [keys.normal.space.l]
