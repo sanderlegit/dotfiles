@@ -10,4 +10,4 @@ formatter = { command = "goimports" }
 indent = { tab-width = 2, unit = "\t" }
 
 [language-server.rust-analyzer.config.check]
-command = "clippy"
+check = {command = "cargo", extraArgs = ["clippy"]}
