@@ -96,8 +96,8 @@ outer.right =      0
 cmd-h = [] # Disable "hide application"
 cmd-alt-h = [] # Disable "hide others"
 
-// This shuold swap the windows on the monitor to the rights workspace, with the monitor to the lefts workspace.
-cmd-tab = ['focus-window right' 'wworkspace-back-and-forth']
+// Swap workspaces between monitors
+cmd-tab = ['move-workspace-to-monitor next', 'workspace-back-and-forth']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
