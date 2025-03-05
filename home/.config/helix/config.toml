@@ -53,9 +53,9 @@ S-tab = "extend_parent_node_start"
 
 # Zellix
 [keys.normal.space.f]
-f = ":sh zellij run -c -f -x 1% -y 1% --width 99% --height 98% -- nu $ZELLIX_MOD/broot.nu"
+f = ":sh zellij run -c -f -x 1% -y 1% --width 98% --height 98% -- nu $ZELLIX_MOD/broot.nu"
 e = "file_picker"
-w = ":sh zellij run -c -f -x 1% -y 1% --width 99% --height 98% -- nu $ZELLIX_MOD/fzf.nu"
+w = ":sh zellij run -c -f -x 1% -y 1% --width 98% --height 98% -- nu $ZELLIX_MOD/fzf.nu"
 
 # [keys.normal.space.l]
 # a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
