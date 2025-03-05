@@ -27,11 +27,18 @@ max-indent-retain = 0
 # wrap-indicator = ""  # set wrap-indicator to "" to hide it
 
 [keys.normal]
+# "*" = ["search", "insert_word", "submit_search"] # broken
 tab = "move_parent_node_end"
 S-tab = "move_parent_node_start"
 
 [keys.normal.space]
-w = ":write"
+q = ":write"
+e = "file_explorer_in_current_buffer_directory"
+E = ":sh zellij run -c -f -x 1% -y 1% --width 99% --height 98% -- nu $ZELLIX_MOD/yazi.nu"
+z = ":write-all"
+
+[keys.normal.space.w]
+c = ":bc" # close buffer
 
 [keys.insert]
 S-tab = "move_parent_node_start"
@@ -44,11 +51,13 @@ k = "normal_mode" # Maps `jk` to exit insert mode
 tab = "extend_parent_node_end"
 S-tab = "extend_parent_node_start"
 
+# Zellix
 [keys.normal.space.f]
-f = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/broot.nu"
+f = ":sh zellij run -c -f -x 1% -y 1% --width 99% --height 98% -- nu $ZELLIX_MOD/broot.nu"
 e = "file_picker"
-w = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/fzf.nu"
+w = ":sh zellij run -c -f -x 1% -y 1% --width 99% --height 98% -- nu $ZELLIX_MOD/fzf.nu"
 
-[keys.normal.space.l]
-a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
+# [keys.normal.space.l]
+# a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
 # b = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/bacon.nu"
+ 
