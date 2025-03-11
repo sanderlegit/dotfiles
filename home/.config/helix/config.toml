@@ -7,6 +7,10 @@ true-color = true
 idle-timeout = 0
 gutters = ["diff", "diagnostics", "line-numbers", "spacer"]
 
+[editor.inline-diagnostics]
+cursor-line = "hint"
+other-lines = "hint"
+
 [editor.file-picker]
 hidden = false
 
@@ -44,6 +48,7 @@ z = ":write-all"
 
 [keys.normal.space.w]
 c = ":bc" # close buffer
+w = ":toggle-option soft-wrap.enable"
 
 [keys.insert]
 S-tab = "move_parent_node_start"
