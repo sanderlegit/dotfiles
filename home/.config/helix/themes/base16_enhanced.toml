@@ -31,9 +31,9 @@
 "ui.virtual.ruler" = { bg = "gray" }
 "ui.virtual.whitespace" = "gray"
 "ui.virtual.indent-guide" = "gray"
-"ui.virtual.inlay-hint" = { fg = "light-gray", modifiers = ["dim", "italic"] }
-"ui.virtual.inlay-hint.parameter" = { fg = "light-gray", modifiers = ["dim", "italic"] }
-"ui.virtual.inlay-hint.type" = { fg = "light-gray", modifiers = ["dim", "italic"] }
+"ui.virtual.inlay-hint" = { fg = "light-gray", modifiers = ["italic"] }
+"ui.virtual.inlay-hint.parameter" = { fg = "light-gray", modifiers = ["italic"] }
+"ui.virtual.inlay-hint.type" = { fg = "light-gray", modifiers = ["italic"] }
 "ui.virtual.wrap" = "gray"
 "ui.virtual.jump-label" = { fg = "blue", modifiers = ["bold", "underlined"] }
 
