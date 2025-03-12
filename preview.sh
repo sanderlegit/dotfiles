@@ -67,7 +67,7 @@ if [[ -z "$BATCAT" ]]; then
 fi
 
 if [ -z "$FZF_PREVIEW_COMMAND" ] && [ "${BATCAT:+x}" ]; then
-  ${BATCAT} --style="${BAT_STYLE:-numbers}" --color=always --pager=never \
+  ${BATCAT} --style="${BAT_STYLE:-numbers}" --theme="ansi" --color=always --pager=never \
       --highlight-line=$CENTER -- "$FILE"
   exit $?
 fi
