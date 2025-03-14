@@ -9,5 +9,16 @@ auto-format = true
 formatter = { command = "goimports" }
 indent = { tab-width = 2, unit = "\t" }
 
+[[language]]
+name = "python"
+diagnostic-severity = "info"
+
 [language-server.rust-analyzer.config.check]
 check = {command = "cargo", extraArgs = ["clippy"]}
+
+[language-server.pylsp.config.pylsp.plugins]
+pycodestyle = { ignore = ["E501"], maxLineLength = 120 }
+
+[language-server.ruff]
+command = "ruff"
+config = { lint = { ignore = ["E501", "W293"] } }
