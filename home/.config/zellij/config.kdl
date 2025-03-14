@@ -148,6 +148,7 @@ keybinds clear-defaults=true {
         bind "Ctrl Shift l" { MoveFocusOrTab "right"; }
         bind "Ctrl Shift n" { NewPane; }
         bind "Ctrl Shift o" { MoveTab "right"; }
+        bind "Ctrl Shift z" { ToggleFloatingPanes; }
     }
 
     shared_except "locked" {
@@ -162,6 +163,7 @@ keybinds clear-defaults=true {
         bind "Ctrl v" { EditScrollback; SwitchToMode "normal"; }
         bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Ctrl s" { EditScrollback; SwitchToMode "normal"; }
+
         // bind "Ctrl q" { Quit; }
     }
     shared_except "locked" "move" {
