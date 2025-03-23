@@ -48,6 +48,11 @@ q = ":write"
 E = "file_explorer_in_current_buffer_directory"
 e = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/yazi.nu"
 z = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/zsh.nu"
+z = ":write-all"
+x = [
+    ":toggle inline-diagnostics.cursor-line hint disable", 
+    ":toggle inline-diagnostics.other-lines hint disable"
+]
 
 [keys.normal.space.w]
 c = ":bc" # close buffer
