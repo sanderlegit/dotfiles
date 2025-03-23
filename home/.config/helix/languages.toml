@@ -10,6 +10,12 @@ formatter = { command = "goimports" }
 indent = { tab-width = 2, unit = "\t" }
 
 [[language]]
+name = "nix"
+auto-format = true
+formatter = { command = "nix fmt" }
+indent = { tab-width = 2, unit = "\t" }
+
+[[language]]
 name = "python"
 diagnostic-severity = "info"
 

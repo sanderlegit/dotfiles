@@ -1,6 +1,7 @@
 # theme = "base16_transparent"
 # theme = "term16_dark"
-theme = "base16_enhanced"
+# theme = "base16_enhanced"
+theme = "everforest_dark"
 
 [editor]
 true-color = true
@@ -38,14 +39,15 @@ max-indent-retain = 0
 # "*" = ["search", "insert_word", "submit_search"] # broken
 tab = "move_parent_node_end"
 S-tab = "move_parent_node_start"
+C-q = ":write-quit"
 
 [keys.normal.space]
 l = ":toggle-option lsp.display-inlay-hints"
-g = ":sh zellij run -c -f -x 1% -y 1% --width 99% --height 98% -- nu $ZELLIX_MOD/lazygit.nu"
+g = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/lazygit.nu"
 q = ":write"
-# e = "file_explorer_in_current_buffer_directory"
-e = ":sh zellij run -c -f -x 1% -y 1% --width 99% --height 98% -- nu $ZELLIX_MOD/yazi.nu"
-z = ":write-all"
+E = "file_explorer_in_current_buffer_directory"
+e = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/yazi.nu"
+z = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/zsh.nu"
 
 [keys.normal.space.w]
 c = ":bc" # close buffer
@@ -64,9 +66,9 @@ S-tab = "extend_parent_node_start"
 
 # Zellix
 [keys.normal.space.f]
-f = ":sh zellij run -c -f -x 1% -y 1% --width 98% --height 98% -- nu $ZELLIX_MOD/broot.nu"
+f = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/broot.nu"
 e = "file_picker"
-w = ":sh zellij run -c -f -x 1% -y 1% --width 98% --height 98% -- nu $ZELLIX_MOD/fzf.nu"
+w = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/fzf.nu"
 
 # [keys.normal.space.l]
 # a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
