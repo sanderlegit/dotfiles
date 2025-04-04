@@ -2,6 +2,7 @@
 name = "rust"
 auto-format = true
 indent = { tab-width = 2, unit = "\t" }
+formatter = { command = "rustfmt", args = ["--edition", "2024"] }
 
 [[language]]
 name = "go"
