@@ -47,6 +47,8 @@ g = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD
 q = ":write"
 e = "file_explorer_in_current_buffer_directory"
 E = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/yazi.nu"
+R = ":reload-all"
+t = ":toggle soft-wrap.enable"
 z = ":write-all"
 x = [
   ":toggle inline-diagnostics.cursor-line hint disable",
@@ -60,9 +62,6 @@ w = ":toggle-option soft-wrap.enable"
 [keys.insert]
 S-tab = "move_parent_node_start"
 C-a = "completion"
-
-[keys.insert.j]
-k = "normal_mode" # Maps `jk` to exit insert mode
 
 [keys.select]
 tab = "extend_parent_node_end"
