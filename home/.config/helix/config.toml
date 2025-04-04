@@ -31,7 +31,7 @@ skip-levels = 1
 
 [editor.soft-wrap]
 enable = true
-max-wrap = 25 # increase value to reduce forced mid-word wrapping
+max-wrap = 25         # increase value to reduce forced mid-word wrapping
 max-indent-retain = 0
 # wrap-indicator = ""  # set wrap-indicator to "" to hide it
 
@@ -45,17 +45,16 @@ C-q = ":write-quit"
 l = ":toggle-option lsp.display-inlay-hints"
 g = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/lazygit.nu"
 q = ":write"
-E = "file_explorer_in_current_buffer_directory"
-e = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/yazi.nu"
-z = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/zsh.nu"
+e = "file_explorer_in_current_buffer_directory"
+E = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD/yazi.nu"
 z = ":write-all"
 x = [
-    ":toggle inline-diagnostics.cursor-line hint disable", 
-    ":toggle inline-diagnostics.other-lines hint disable"
+  ":toggle inline-diagnostics.cursor-line hint disable",
+  ":toggle inline-diagnostics.other-lines hint disable",
 ]
 
 [keys.normal.space.w]
-c = ":bc" # close buffer
+c = ":bc"                             # close buffer
 w = ":toggle-option soft-wrap.enable"
 
 [keys.insert]
@@ -78,4 +77,3 @@ w = ":sh zellij run -c -f -x 5% -y 6% --width 90% --height 88% -- nu $ZELLIX_MOD
 # [keys.normal.space.l]
 # a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
 # b = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/bacon.nu"
- 
