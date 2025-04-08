@@ -42,17 +42,16 @@ S-tab = "move_parent_node_start"
 C-q = ":write-quit"
 
 [keys.normal.space]
-l = ":toggle-option lsp.display-inlay-hints"
-g = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/lazygit.nu"
 q = ":write"
-e = "file_explorer_in_current_buffer_directory"
-B = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}"
-v = ":write-to-primary-clipboard %sh{gh browse -cn %{buffer_name}:%{cursor_line}}"
-# e = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/yazi.nu"
-E = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/yazi.nu"
 R = ":reload-all"
-t = ":toggle soft-wrap.enable"
 z = ":write-all"
+e = "file_explorer_in_current_buffer_directory"
+E = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/yazi.nu"
+g = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/lazygit.nu"
+v = ":write-to-primary-clipboard %sh{gh browse -cn %{buffer_name}:%{cursor_line}}"
+B = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}"
+l = ":toggle-option lsp.display-inlay-hints"
+t = ":toggle soft-wrap.enable"
 x = [
   ":toggle inline-diagnostics.cursor-line hint disable",
   ":toggle inline-diagnostics.other-lines hint disable",
