@@ -17,8 +17,6 @@ hidden = false
 
 [editor.lsp]
 display-messages = true
-# mapped to keys.normal.space l
-# display-inlay-hints = true
 
 [editor.smart-tab]
 enable = true
@@ -36,7 +34,6 @@ max-indent-retain = 0
 # wrap-indicator = ""  # set wrap-indicator to "" to hide it
 
 [keys.normal]
-# "*" = ["search", "insert_word", "submit_search"] # broken
 tab = "move_parent_node_end"
 S-tab = "move_parent_node_start"
 C-q = ":write-quit"
@@ -45,20 +42,21 @@ C-q = ":write-quit"
 q = ":write"
 R = ":reload-all"
 z = ":write-all"
-e = "file_explorer_in_current_buffer_directory"
-E = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/yazi.nu %{buffer_name}"
+E = "file_explorer_in_current_buffer_directory"
+e = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/yazi.nu %{buffer_name}"
+f = "file_picker"
 g = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/lazygit.nu"
-v = ":write-to-primary-clipboard %sh{gh browse -cn %{buffer_name}:%{cursor_line}}"
+t = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/fzf.nu"
+v = ":write-to-primary-clipboard %sh{gh browse -cn %{buffer_name}:%{cursor_line} | pbcopy}"
 B = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}"
 l = ":toggle-option lsp.display-inlay-hints"
-t = ":toggle soft-wrap.enable"
 x = [
   ":toggle inline-diagnostics.cursor-line hint disable",
   ":toggle inline-diagnostics.other-lines hint disable",
 ]
 
 [keys.normal.space.w]
-c = ":bc"                             # close buffer
+c = ":buffer-close"
 w = ":toggle-option soft-wrap.enable"
 
 [keys.insert]
@@ -68,13 +66,3 @@ C-a = "completion"
 [keys.select]
 tab = "extend_parent_node_end"
 S-tab = "extend_parent_node_start"
-
-# Zellix
-[keys.normal.space.f]
-f = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/broot.nu"
-e = "file_picker"
-w = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/fzf.nu"
-
-# [keys.normal.space.l]
-# a = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/ai.nu"
-# b = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu $ZELLIX_MOD/bacon.nu"
