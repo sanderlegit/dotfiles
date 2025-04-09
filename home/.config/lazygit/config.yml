@@ -65,9 +65,11 @@ git:
     parseEmoji: false
     diffContextSize: 3 # how many lines of context are shown around a change in diffs
 os:
-    editCommand: '' # see 'Configuring File Editing' section
-    editCommandTemplate: '{{editor}} {{filename}}'
-    openCommand: ''
+    edit: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}'
+    editAtLine: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}:{{line}}'
+    editAtLineAndWait: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}:{{line}}'
+    editInTerminal: true
+    openDirInEditor: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{dir}}'
 refresher:
     refreshInterval: 10 # file/submodule refresh interval in seconds
     fetchInterval: 60 # re-fetch interval in seconds
@@ -79,7 +81,7 @@ confirmOnQuit: false
 # determines whether hitting 'esc' will quit the application when there is nothing to cancel/close
 quitOnTopLevelReturn: false
 disableStartupPopups: false
-notARepository: 'prompt' # one of: 'prompt' | 'create' | 'skip'
+notARepository: 'skip' # one of: 'prompt' | 'create' | 'skip'
 keybinding:
     universal:
         quit: 'q'
