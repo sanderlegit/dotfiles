@@ -128,8 +128,6 @@ source $ZSH/oh-my-zsh.sh
 
 ### QOL Shortcuts
 
-alias zshconf="hx ~/.zshrc; source ~/.zshrc"
-
 alias llt="ls -lat"
 
 alias clean="mv ~/Desktop/* ~/not_desktop"
@@ -137,8 +135,6 @@ rmds () {
 	rm $(find . | grep '\.DS_Store')
 }
 
-alias lg="lazygit"
-alias ld="lazydocker"
 # alias air='~/.air'
 
 alias nosleep="sudo pmset -b disablesleep 1"
@@ -446,25 +442,65 @@ help() {
   grep -A1 '# HELP: ' ~/.zshrc
 }
 
-function edit() {
-    $(which nu) $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
+export ZELLIX_MOD="$HOME/dotfiles/zellix"
+
+# function te() {
+#     zellij ac rename-tab "hx $(basename "$(pwd)")"
+#     nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
+# }
+
+# function k9s() {
+#     context=$(kubectl config current-context | cut -c 1-10);
+#     zellij ac rename-tab "k9s $context";
+#     command k9s
+# }
+
+function lg() {
+    command lazygit
 }
-export EDITOR=hx
+
+function gitui() {
+    # zellij ac rename-tab "gitui"
+    command gitui
+}
+
+function ld() {
+    # zellij ac rename-tab "ld"
+    command lazydocker
+}
+
+
+function zshconf() {
+    # zellij ac rename-tab "zshconf"
+    cd ~/
+    $EDITOR ~/.zshrc
+    source ~/.zshrc
+    cd -
+}
+
+function drc() {
+  # zellij ac rename-tab "dotfiles"
+  cd ~/.dotfiles/ && nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
+  cd -
+}
+
 
 export ZELLIX_MOD="$HOME/.dotfiles/zellix"
-alias zx="nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example"
 
-function fw() {
-    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-    INITIAL_QUERY="${*:-}"
-    fzf --ansi --disabled --query "$INITIAL_QUERY" \
-        --bind "start:reload:$RG_PREFIX {q}" \
-        --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-        --delimiter : \
-        --preview 'bat --color=always {1} --highlight-line {2}' \
-        --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-        --bind "enter:become($EDITOR {1}:{2}:{3})"
+function te() {
+    # zellij ac rename-tab "hx $(basename "$(pwd)")"
+    nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
 }
+
+export EDITOR=hx
+
+export PREVIEW_SH=$HOME/.dotfiles/preview.sh
+
+# function fw() {
+#   $EDITOR $(sk --ansi --cmd "rg --column --line-number --no-heading --color=always --smart-case --hidden $@" --delimiter ":" --height "100%" --preview "bat --color=always {1} --highlight-line {2}" --preview-window "up:60%:border")
+# }
+
+
 
 
 source /home/dries/.config/broot/launcher/bash/br
@@ -719,3 +755,38 @@ complete -C /home/linuxbrew/.linuxbrew/Cellar/aws-sso-cli/1.17.0/bin/aws-sso aws
 # END_AWS_SSO_CLI
 eval 
 MATANO_AC_ZSH_SETUP_PATH=/home/dries/.cache/matano/autocomplete/zsh_setup && test -f $MATANO_AC_ZSH_SETUP_PATH && source $MATANO_AC_ZSH_SETUP_PATH; # matano autocomplete setup
+
+export NVM_DIR="$HOME/.config//nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+function aug-env {
+  export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_auguria"
+}
+
+function u6-env {
+  export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_unit6"
+}
+
+# default
+aug-env
+
+function ai {
+    # zellij ac rename-tab "ai $(basename "$(pwd)")"
+    aider --no-attribute-author --no-attribute-committer --dark-mode --multi $@
+}
+
+function pop {
+    zellij ac rename-tab "$(basename "$(pwd)")"
+    zellij run -f -x 0 -y 0 --width 100% --height 100% -- nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
+}
+
+alias prc="gh pr comment --editor";
+alias pre="gh pr comment --editor --edit-last";
+alias prv="gh pr view --comments";
+alias prw="gh pr view --web";
+
+export GOPRIVATE=github.com/auguria-io
+
+# lldb-dap debugging and other
+# $(brew --prefix)/opt/llvm/bin
