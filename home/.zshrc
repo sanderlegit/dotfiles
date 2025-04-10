@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 export PATH=/home/dries/go/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/usr/local/go/bin:/home/dries/go/bin
@@ -313,103 +314,30 @@ bindkey -v
 replace_strings() {
     # Define the colors
     RED='\033[1;31m'
-		GREEN='\033[33m'
+    GREEN='\033[33m'
     NC='\033[0m' # No Color
-
-    # Assign the arguments to named variables
+    
+    # Assign arguments to variables
     file_type=$1
     find_string=$2
     replace_string=$3
-
+    
     echo "This will replace all instances of '$find_string' with '$replace_string' in all $file_type files."
-
-    # Find the files that contain the find_string
-    files=$(grep -rl --include="*$file_type" "$find_string" .)
-
-    echo "The following files will be affected:"
-    echo "$files"
-
-    echo "The following changes will be made:"
-    pre_change=$(echo "$files" | xargs grep -n "$find_string")
-
-    longest=0
-    while IFS= read -r line
-    do
-        filename=$(echo $line | cut -d: -f1)
-        length=${#filename}
-        if (( length > longest ))
-        then
-            longest=$length
-        fi
-    done <<< "$pre_change"
-
-    prev_filename=""
-    while IFS= read -r line
-    do
-        filename=$(echo $line | cut -d: -f1)
-        line_number=$(echo $line | cut -d: -f2)
-        content=$(echo $line | cut -d: -f3- | sed -e 's/^[[:space:]]*//')
-
-        # Calculate the number of leading spaces to align the replace_string
-        leading_spaces=${content%%$find_string*}
-        leading_spaces=${#leading_spaces}
-
-				cut_before=$(echo "$content" | awk -v find="$find_string" '{split($0, a, find); print a[1]}')
-
-				# Cut string after substring
-				cut_after=$(echo "$content" | awk -v find="$find_string" '{split($0, a, find); print a[2]}')
-        
-        # Only print the filename if it is not the same as the previous one
-        if [ "$filename" != "$prev_filename" ]
-        then
-            printf "\n%-$((longest+5))s\n" "$filename"
-            prev_filename=$filename
-        fi
-
-        printf "%-3s:%s${RED}%s${NC}%s\n" "$line_number" "$cut_before" "$find_string" "$cut_after"
-        printf "%-3s%*s ${RED} ~ %s${NC}\n" "" "$leading_spaces" "" "$replace_string"
-    done <<< "$pre_change"
-
+    
+    # Preview changes using sd's preview functionality
+    echo "Preview of changes:"
+    sd --preview "$find_string" "$replace_string" $(fd -e "$file_type")
+    
+    # Confirmation
     echo -n "Are you sure you want to continue? (y/n) "
     read answer
-    if [ "$answer" != "${answer#[Yy]}" ] ;then
-        echo "$files" | xargs -I {} sed -i "" "s#$find_string#$replace_string#g" {}
-
-        post_change=$(echo "$files" | xargs grep -n "$replace_string")
-        if [ "$pre_change" != "$post_change" ]; then
-            echo "Replacements were made. Here are the changes:"
-            echo "$post_change"
-        else
-            echo "No replacements were made."
-        fi
+    if [ "$answer" != "${answer#[Yy]}" ]; then
+        # Execute the replacement directly on the files found by fd
+        sd "$find_string" "$replace_string" $(fd -e "$file_type")
+        echo "Replacements completed."
     else
         echo "Operation cancelled."
     fi
-}
-
-fname_grep() {
-    if [ -z "$1" ] || [ -z "$2" ]; then
-        echo "Usage: fname_grep <search_string> <file_type>"
-        echo "Searches for a string in a given filetype within the current directory and its subdirectories."
-        echo "Arguments:"
-        echo "  <search_string>: The string to search for"
-        echo "  <file_type>: The file type to search within"
-        return 1
-    fi
-
-    local search_string="$1"
-    local file_type="$2"
-
-    # Get the length of the longest filename
-    local longest_filename_length=$(grep -l "$search_string" --include="*.$file_type" -r . | awk '{ print length($0) }' | sort -nr | head -n 1)
-
-    # Set the padding format based on the longest filename length
-    local padding_format="%-${longest_filename_length}s"
-
-    # Grep with padded filenames
-    grep -H "$search_string" --include="*.$file_type" -r . | while IFS=: read -r filename content; do
-        printf "$padding_format:$content\n" "$filename"
-    done
 }
 
 # Usage: post_request <url> <file>
@@ -444,34 +372,20 @@ help() {
 
 export ZELLIX_MOD="$HOME/dotfiles/zellix"
 
-# function te() {
-#     zellij ac rename-tab "hx $(basename "$(pwd)")"
-#     nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
-# }
-
-# function k9s() {
-#     context=$(kubectl config current-context | cut -c 1-10);
-#     zellij ac rename-tab "k9s $context";
-#     command k9s
-# }
-
 function lg() {
     command lazygit
 }
 
 function gitui() {
-    # zellij ac rename-tab "gitui"
     command gitui
 }
 
 function ld() {
-    # zellij ac rename-tab "ld"
     command lazydocker
 }
 
 
 function zshconf() {
-    # zellij ac rename-tab "zshconf"
     cd ~/
     $EDITOR ~/.zshrc
     source ~/.zshrc
@@ -479,7 +393,6 @@ function zshconf() {
 }
 
 function drc() {
-  # zellij ac rename-tab "dotfiles"
   cd ~/.dotfiles/ && nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
   cd -
 }
@@ -488,7 +401,6 @@ function drc() {
 export ZELLIX_MOD="$HOME/.dotfiles/zellix"
 
 function te() {
-    # zellij ac rename-tab "hx $(basename "$(pwd)")"
     nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
 }
 
@@ -496,58 +408,6 @@ export EDITOR=hx
 
 export PREVIEW_SH=$HOME/.dotfiles/preview.sh
 
-# function fw() {
-#   $EDITOR $(sk --ansi --cmd "rg --column --line-number --no-heading --color=always --smart-case --hidden $@" --delimiter ":" --height "100%" --preview "bat --color=always {1} --highlight-line {2}" --preview-window "up:60%:border")
-# }
-
-
-
-
-source /home/dries/.config/broot/launcher/bash/br
-
-function ex() {
-    selected_file=$(br)
-    
-    # Check if we got a valid file
-    if [ $? -eq 0 ] && [ -n "$selected_file" ]; then
-        if [ -f "$selected_file" ]; then
-            ${EDITOR:-vim} "$selected_file"
-        else
-            echo "Error: Selected path is not a regular file: $selected_file"
-            return 1
-        fi
-    else
-        echo "No file selected or broot was cancelled"
-        return 1
-    fi
-}
-
-
-# function ex() {
-#     FILE=$(br)
-#     $EDITOR $FILE
-# }
-
-lights() {
-    # Check if Vivid is running
-    if pgrep "Vivid" > /dev/null; then
-        # Close Vivid
-        pkill "Vivid"
-        # Open Flux
-        open -a "Flux"
-    else
-        # Check if Flux is running
-        if pgrep "Flux" > /dev/null; then
-            # Close Flux
-            pkill "Flux"
-            # Open Vivid
-            open -a "Vivid"
-        else
-            # Default action (You can decide to open either Vivid or Flux if none are running)
-            open -a "Vivid"
-        fi
-    fi
-}
 export XDG_CONFIG_HOME=~/.config/
 
 ### Fix for making Docker plugin work
@@ -556,84 +416,43 @@ export XDG_CONFIG_HOME=~/.config/
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
-openpodport() {
-    pod_name=$1
-    internal_port=$2
-
-    if [ -z "$pod_name" ] || [ -z "$internal_port" ]; then
-        echo "Usage: open_pod_port_in_brave <pod_name> <internal_port>"
-        return 1
-    fi
-
-    # Find the container ID using the pod name
-    container_id=$(docker ps --filter "name=$pod_name" --format "{{.ID}}")
-
-    if [ -z "$container_id" ]; then
-        echo "Container not found for pod: $pod_name"
-        return 1
-    fi
-
-    # Extract the mapped port
-    mapped_port=$(docker port $container_id $internal_port | cut -d ':' -f 2)
-
-    if [ -z "$mapped_port" ]; then
-        echo "No port found mapped to $internal_port for pod: $pod_name"
-        return 1
-    fi
-
-    # Construct the URL
-    url="http://localhost:$mapped_port"
-
-    # Open the URL in Brave Browser
-    if open -a "Brave Browser" $url; then
-        echo "Opened $url in Brave Browser."
-    else
-        echo "Failed to open Brave Browser. Is it installed?"
-    fi
-}
-
-dotenv() {
-	export $(cat .env | grep -v ^# | xargs);
-}
-
-# eval "$(pyenv init -)"
-
-my-backward-word () {
-    # Add colon, comma, single/double quotes to word chars
-    local WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>:,"'"'"
-    zle backward-word
-}
-my-forward-word () {
-    # Add colon, comma, single/double quotes to word chars
-    local WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>:,"'"'"
-    zle forward-word
-}
-
-zle -N my-backward-word
-zle -N my-forward-word
-bindkey "[D" my-backward-word
-bindkey "[C" my-forward-word
-
+# macos stuff
 #https://flaky.build/native-fix-for-applications-hiding-under-the-macbook-pro-notch
 # defaults -currentHost delete -globalDomain NSStatusItemSelectionPadding
 # defaults -currentHost delete -globalDomain NSStatusItemSpacing
 # defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 3
 # defaults -currentHost write -globalDomain NSStatusItemSpacing -int 3
-alias avim="NVIM_APPNAME=AstroNvim nvim"
-alias cachesite="wget --mirror --convert-links --adjust-extension --page-requisites --no-parent $1"
 
-alias z="zoxide"
-alias red="open /System/Library/CoreServices/ScreenSaverEngine.app"
+# macos stuff
+# alias red="open /System/Library/CoreServices/ScreenSaverEngine.app"
+ 
+# macos stuff
+# lights() {
+#     # Check if Vivid is running
+#     if pgrep "Vivid" > /dev/null; then
+#         # Close Vivid
+#         pkill "Vivid"
+#         # Open Flux
+#         open -a "Flux"
+#     else
+#         # Check if Flux is running
+#         if pgrep "Flux" > /dev/null; then
+#             # Close Flux
+#             pkill "Flux"
+#             # Open Vivid
+#             open -a "Vivid"
+#         else
+#             # Default action (You can decide to open either Vivid or Flux if none are running)
+#             open -a "Vivid"
+#         fi
+#     fi
+# }
 
 # Kubectl
 
 alias k9s='k9s -n all'
 
-
 source <(fzf --zsh)
-
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 
 source <(kubectl completion zsh)
 
@@ -656,9 +475,6 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8	
 
-alias td="$EDITOR ~/.todo.md"
-alias cmds="$EDITOR ~/.cmds.md"
-
 CUDA_HOME=/usr/local/cuda
 PATH=${CUDA_HOME}/bin${PATH:+:${PATH}}
 # LD_LIBRARY_PATH=${CUDA_HOME}/lib64 ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
@@ -666,41 +482,31 @@ PATH=${CUDA_HOME}/bin${PATH:+:${PATH}}
 export CUDA_HOME
 export PATH
 
-# Add this to your ~/.zshrc
+# cargo install du-dust
 function dirsize() {
-    local target_dir="${1:-.}"  # Use passed path or current dir (.)
-    local abs_path="$(cd "$target_dir" 2>/dev/null && pwd)"
-    
-    if [ $? -ne 0 ]; then
-        echo "Error: Directory '$target_dir' does not exist or is not accessible"
-        return 1
-    fi
-    
-    echo "Size breakdown for: $abs_path"
-    echo "----------------------------------------"
-    (cd "$abs_path" && du -sh -- */ 2>/dev/null) | sort -hr
+    dust $1
 }
 
-function killold() {
-    local search_term=$1
-    if [[ -z $search_term ]]; then
-        echo "Usage: killold <search_term>"
-        return 1
-    fi
+# function killold() {
+#     local search_term=$1
+#     if [[ -z $search_term ]]; then
+#         echo "Usage: killold <search_term>"
+#         return 1
+#     fi
 
-    echo "Will kill these processes:"
-    ps -eo pid,etime,cmd | grep $search_term | grep -v grep
-    echo "\nProceed with kill? [y/N] "
-    read -q response
-    echo
+#     echo "Will kill these processes:"
+#     ps -eo pid,etime,cmd | grep $search_term | grep -v grep
+#     echo "\nProceed with kill? [y/N] "
+#     read -q response
+#     echo
     
-    if [[ $response =~ ^[Yy]$ ]]; then
-        echo "Killing processes..."
-        ps -eo pid,etime,cmd | grep $search_term | grep -v grep | awk '{print $1}' | xargs kill
-    else
-        echo "Operation cancelled"
-    fi
-}
+#     if [[ $response =~ ^[Yy]$ ]]; then
+#         echo "Killing processes..."
+#         ps -eo pid,etime,cmd | grep $search_term | grep -v grep | awk '{print $1}' | xargs kill
+#     else
+#         echo "Operation cancelled"
+#     fi
+# }
 
 # Gh Cli
 export GH_PAGER=cat
@@ -790,3 +596,66 @@ export GOPRIVATE=github.com/auguria-io
 
 # lldb-dap debugging and other
 # $(brew --prefix)/opt/llvm/bin
+
+# Function to edit PR description in your default editor
+# If PR_NUMBER is empty, default behaviour follows
+# Usage: predit [PR_NUMBER]
+prb() {
+  # Check if gh is installed
+  if ! command -v gh &> /dev/null; then
+    echo "Error: GitHub CLI (gh) is not installed. Please install it first."
+    return 1
+  fi
+
+  # Check if a PR number was provided as an argument, otherwise use current branch
+  if [ "$1" ]; then
+    PR_SELECTOR="$1"
+  else
+    PR_SELECTOR=""
+  fi
+
+  # Create a temporary file
+  TEMP_FILE=$(mktemp /tmp/pr-body-XXXXXX.md)
+
+  # Get the current PR body and save to the temporary file
+  echo "Fetching current PR description..."
+  gh pr view $PR_SELECTOR --json body --jq .body > "$TEMP_FILE"
+
+  if [ $? -ne 0 ]; then
+    echo "Error: Failed to get PR description. Make sure you're in a repository with a PR or provide a valid PR number."
+    rm "$TEMP_FILE"
+    return 1
+  fi
+
+  # Get the original file modification time
+  ORIGINAL_MTIME=$(stat -c %Y "$TEMP_FILE" 2>/dev/null || stat -f %m "$TEMP_FILE")
+
+  # Open the temporary file in the default editor
+  echo "Opening PR description in your default editor. Make your changes and save the file..."
+  ${VISUAL:-${EDITOR:-vi}} "$TEMP_FILE"
+
+  # Get the new file modification time
+  NEW_MTIME=$(stat -c %Y "$TEMP_FILE" 2>/dev/null || stat -f %m "$TEMP_FILE")
+
+  # Check if the file was modified
+  if [ "$ORIGINAL_MTIME" = "$NEW_MTIME" ]; then
+    echo "No changes were made. PR description not updated."
+    rm "$TEMP_FILE"
+    return 0
+  fi
+
+  # Update the PR body with the edited content
+  echo "Updating PR description..."
+  gh pr edit $PR_SELECTOR --body-file "$TEMP_FILE"
+
+  if [ $? -eq 0 ]; then
+    echo "PR description updated successfully!"
+  else
+    echo "Error: Failed to update PR description."
+    echo "Your changes are saved in: $TEMP_FILE"
+    return 1
+  fi
+
+  # Clean up
+  rm "$TEMP_FILE"
+}
