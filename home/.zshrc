@@ -392,12 +392,6 @@ function zshconf() {
 
 export ZELLIX_MOD="$HOME/.dotfiles/zellix"
 
-# edit dotfiles
-function drc() {
-  cd ~/.dotfiles/ && nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
-  cd -
-}
-
 # editor in terminal
 function te() {
     nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
@@ -408,6 +402,13 @@ function pop {
     zellij ac rename-tab "$(basename "$(pwd)")"
     zellij run -f -x 0 -y 0 --width 100% --height 100% -- nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
 }
+
+# edit dotfiles
+function drc() {
+  cd ~/.dotfiles/ && nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
+  cd -
+}
+
 
 # aider
 function ai {
