@@ -370,8 +370,6 @@ help() {
   grep -A1 '# HELP: ' ~/.zshrc
 }
 
-export ZELLIX_MOD="$HOME/dotfiles/zellix"
-
 function lg() {
     command lazygit
 }
@@ -392,16 +390,29 @@ function zshconf() {
     cd -
 }
 
+export ZELLIX_MOD="$HOME/.dotfiles/zellix"
+
+# edit dotfiles
 function drc() {
   cd ~/.dotfiles/ && nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
   cd -
 }
 
-
-export ZELLIX_MOD="$HOME/.dotfiles/zellix"
-
+# editor in terminal
 function te() {
     nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
+}
+
+# editor in floating window, bind `floating` in your zellij to toggle
+function pop {
+    zellij ac rename-tab "$(basename "$(pwd)")"
+    zellij run -f -x 0 -y 0 --width 100% --height 100% -- nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
+}
+
+# aider
+function ai {
+    # zellij ac rename-tab "ai $(basename "$(pwd)")"
+    aider --no-attribute-author --no-attribute-committer --dark-mode --multi $@
 }
 
 export EDITOR=hx
@@ -576,16 +587,6 @@ function u6-env {
 
 # default
 aug-env
-
-function ai {
-    # zellij ac rename-tab "ai $(basename "$(pwd)")"
-    aider --no-attribute-author --no-attribute-committer --dark-mode --multi $@
-}
-
-function pop {
-    zellij ac rename-tab "$(basename "$(pwd)")"
-    zellij run -f -x 0 -y 0 --width 100% --height 100% -- nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
-}
 
 alias prc="gh pr comment --editor";
 alias pre="gh pr comment --editor --edit-last";
