@@ -403,12 +403,13 @@ function te() {
 # editor in floating window, bind `floating` in your zellij to toggle
 function pop {
     zellij ac rename-tab "$(basename "$(pwd)")"
-    zellij run -f -x 0 -y 0 --width 100% --height 100% -- nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
+    # zellij run -f -x 0 -y 0 --width 100% --height 100% -- nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
+    zellij run -f -x 0 -y 0 --width 100% --height 100% -- hx
 }
 
 # edit dotfiles
 function drc() {
-  cd ~/.dotfiles/ && nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
+  cd ~/.dotfiles/ && hx home/.zshrc
   cd -
 }
 
