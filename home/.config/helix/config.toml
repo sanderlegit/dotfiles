@@ -40,7 +40,6 @@ C-q = ":write-quit"
 
 [keys.normal.space]
 q = ":write"
-R = ":reload-all"
 z = ":write-all"
 E = "file_explorer_in_current_buffer_directory"
 e = ":sh zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $ZELLIX_MOD/yazi.nu %{buffer_name}"

@@ -366,6 +366,9 @@ help() {
   echo "Functions in .zshrc:"
   grep '()' ~/.zshrc
 
+  echo "Alias in .zshrc:"
+  grep 'alias' ~/.zshrc
+
   echo "Help in .zshrc:"
   grep -A1 '# HELP: ' ~/.zshrc
 }
@@ -594,6 +597,17 @@ alias pre="gh pr comment --editor --edit-last";
 alias prv="gh pr view --comments";
 alias prw="gh pr view --web";
 
+# Function to get PR URL and copy using OSC52
+prl() {
+  pr_url=$(gh pr view --json url --jq .url)
+  if [ $? -eq 0 ]; then
+    printf "\033]52;c;$(echo -n "$pr_url" | base64)\a"
+    echo "PR URL copied to clipboard: $pr_url"
+  else
+    echo "Failed to get PR URL. Make sure you're in a git repository with an open PR."
+  fi
+}
+
 export GOPRIVATE=github.com/auguria-io
 
 # lldb-dap debugging and other
@@ -660,4 +674,14 @@ prb() {
 
   # Clean up
   rm "$TEMP_FILE"
+}
+
+# yazi
+function c() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
 }
