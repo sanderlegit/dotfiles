@@ -1,3 +1,12 @@
 home/.config/karabiner/automatic_backups
 .aider*
 home/.config/lazygit/state.yml
+home/.config/gcloud/legacy_credentials/sander@aaadataplumbing.com
+home/.config/gcloud/logs/2025.04.13
+home/.config/gcloud/access_tokens.db
+home/.config/gcloud/application_default_credentials.json
+home/.config/gcloud/config_sentinel
+home/.config/gcloud/credentials.db
+home/.config/gcloud/default_configs.db
+home/.config/helix/runtime
+home/.config/yazi/plugins/glow.yazi

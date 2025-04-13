@@ -1,0 +1,3 @@
+[[manager.prepend_keymap]]
+on = "<C-b>"
+run = 'shell -- qlmanage -p "$@"'
