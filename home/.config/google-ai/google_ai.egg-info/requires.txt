@@ -1,0 +1,6 @@
+aider-chat>=0.81.3
+google-cloud-aiplatform>=1.88.0
+google-generativeai>=0.8.4
+
+[playwright]
+playwright>=1.40.0

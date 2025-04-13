@@ -10,3 +10,4 @@ home/.config/gcloud/credentials.db
 home/.config/gcloud/default_configs.db
 home/.config/helix/runtime
 home/.config/yazi/plugins/glow.yazi
+home/.config/gcloud/logs/

@@ -14,7 +14,7 @@ AIDER_ARGS ?= $(DEFAULT_AIDER_ARGS) # Allows overriding like: make run-aider AID
 
 # --- Targets ---
 
-.PHONY: help install clean run-aider sync
+.PHONY: help install clean run-aider sync install-playwright
 
 help: ## ✨ Show this help message
 	@echo "Usage: make [target]"
@@ -43,6 +43,11 @@ clean:
 	rm -f uv.lock
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -exec rm -rf {} +
+
+install-playwright: install ## 🎭 Install Playwright and its dependencies
+	# Installing Playwright and its dependencies
+	uv pip install -p $(PYTHON) -e .[playwright]
+	uv run -p $(PYTHON) playwright install --with-deps chromium
 
 run-aider: install
 	# ▶️ Run aider with specified arguments using uv run
