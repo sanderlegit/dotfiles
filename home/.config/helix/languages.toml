@@ -4,6 +4,7 @@ auto-format = true
 indent = { tab-width = 2, unit = "\t" }
 formatter = { command = "rustfmt", args = ["--edition", "2024"] }
 
+
 [[language]]
 name = "nu"
 auto-format = true
@@ -49,3 +50,28 @@ pycodestyle = { ignore = ["E501"], maxLineLength = 120 }
 [language-server.ruff]
 command = "ruff"
 config = { lint = { ignore = ["E501", "W293"] } }
+
+[[language]]
+name = "yaml"
+file-types = ["yaml", "yml", "tmpl"]
+language-servers = [] # disabled
+# language-servers = ["yaml-language-server"]
+
+# [language-server.yaml-language-server]
+# command = "yaml-language-server"
+# args = ["--stdio"]
+
+# [language-server.yaml-language-server.config.yaml]
+# completion = true
+# validation = true
+# hover = true
+
+# [language-server.yaml-language-server.config.yaml.schemas]
+# "https://github.com/awslabs/goformation/raw/refs/heads/master/schema/cloudformation.schema.json" = ["*cloudformation*.yaml", "*cfn*.yaml"]
+
+[[language]]
+name = "kotlin"
+scope = "source.kotlin"
+file-types = ["kt", "kts"]
+roots = ["build.gradle.kts", "settings.gradle.kts", "build.gradle", "settings.gradle"]
+
