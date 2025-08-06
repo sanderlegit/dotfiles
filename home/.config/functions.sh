@@ -171,3 +171,114 @@ git-files-fd() {
   # Execute the final, safely-quoted pipeline
   eval "$command_pipeline"
 }
+
+# ---------------------------------------------------------------------------
+# USAGE:
+#   <file_list_command> | dir-sizes
+#   dir-sizes <file1> <file2> ...
+#
+# DESCRIPTION:
+#   Calculates and displays statistics for a list of files, grouping the
+#   results in a hierarchical, depth-first manner.
+#
+#   The output is sorted first by the top-level directory and then by the
+#   full directory path, ensuring a logical, nested structure.
+#
+# EXAMPLES:
+#   git-files-fd timeout | dir-sizes
+#   dir-sizes $(fd -e ts -e go)
+# ---------------------------------------------------------------------------
+dir-sizes() {
+
+  # This subshell handles input: it uses arguments if provided,
+  # otherwise it reads from standard input (a pipe).
+  (
+    if [ "$#" -gt 0 ]; then
+      printf "%s\n" "$@"
+    else
+      cat
+    fi
+  ) |
+    # Take the file list and get line/word counts for all files in one go.
+    xargs wc -l -w | sed '$d' |
+    # First awk pass: Process the output from `wc`.
+    # For each file, generate all its parent prefixes and sum up the stats.
+    awk '
+  {
+      # In the output from `wc`, the filename starts at field 3.
+      # This loop correctly reassembles filenames that contain spaces.
+      filename = $3;
+      for (i=4; i<=NF; i++) {
+          filename = filename " " $i;
+      }
+
+      # Split the filename by "/" to find all parent directories (prefixes).
+      n = split(filename, parts, "/");
+
+      # Loop through the parts to build each prefix and add the file stats.
+      prefix = "";
+      for (i = 1; i < n; i++) {
+          prefix = (prefix == "" ? parts[i] : prefix "/" parts[i]);
+          files[prefix]++;
+          lines[prefix] += $1; # $1 is line count from wc
+          words[prefix] += $2; # $2 is word count from wc
+      }
+  }
+  END {
+      # After processing all files, output the aggregated stats.
+      # A tab (\t) is used as a separator to robustly handle spaces in paths.
+      for (p in files) {
+          split(p, toplevel_parts, "/");
+          toplevel = toplevel_parts[1];
+          # Output format: toplevel_dir<TAB>files<TAB>lines<TAB>words<TAB>full_prefix
+          printf "%s\t%d\t%d\t%d\t%s\n", toplevel, files[p], lines[p], words[p], p;
+      }
+  }' |
+    # Sort the data.
+    # -k1,1: Primary sort groups by the top-level directory.
+    # -k5,5: Secondary sort by the full prefix path, creating a natural hierarchy.
+    sort -t$'\t' -k1,1 -k5,5 |
+    # Final awk pass: Format the sorted data into a clean, dynamic table.
+    awk -F'\t' '
+  {
+      # Read all sorted input into memory, storing each field in an array.
+      toplevel[NR] = $1;
+      files[NR] = $2;
+      lines[NR] = $3;
+      words[NR] = $4;
+      prefix[NR] = $5;
+
+      # Keep track of the longest prefix path we have seen so far.
+      if (length($5) > max_width) {
+          max_width = length($5);
+      }
+  }
+  END {
+      # Set a minimum width to ensure the "PREFIX" header always fits.
+      if (max_width < 6) { max_width = 6; }
+      
+      # Dynamically create the format string and separator line based on the max width.
+      header_format = "%-" max_width "s %10s %10s %10s\n";
+      data_format = "%-" max_width "s %10d %10d %10d\n";
+      separator = "";
+      for (i=1; i<=max_width; i++) { separator = separator "-"; }
+
+      # Print the header.
+      printf(header_format, "PREFIX", "FILES", "LINES", "WORDS");
+      printf(header_format, separator, "----------", "----------", "----------");
+
+      # Loop through the stored data and print the final formatted table.
+      for (i=1; i<=NR; i++) {
+          # If the top-level directory changes, print a blank line for grouping.
+          if (last_toplevel != "" && last_toplevel != toplevel[i]) {
+              print "";
+          }
+          
+          # Print the formatted data line.
+          printf(data_format, prefix[i], files[i], lines[i], words[i]);
+          
+          # Update the group tracker for the next iteration.
+          last_toplevel = toplevel[i];
+      }
+  }'
+}
