@@ -11,3 +11,11 @@ home/.config/gcloud/default_configs.db
 home/.config/helix/runtime
 home/.config/yazi/plugins/glow.yazi
 home/.config/gcloud/logs/
+home/.config/.wrangler/metrics.json
+home/.config/.wrangler/logs
+home/.config/aichat/aichat.log
+home/.config/fzf-make/history.toml
+home/.config/gcloud/legacy_credentials
+home/.config/gcloud/surface_data/storage/tracker_files
+home/.config/gcloud/*.json
+!home/.config/gcloud/.last_survey_prompt.yaml
