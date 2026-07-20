@@ -19,3 +19,6 @@ home/.config/gcloud/legacy_credentials
 home/.config/gcloud/surface_data/storage/tracker_files
 home/.config/gcloud/*.json
 !home/.config/gcloud/.last_survey_prompt.yaml
+home/.config/secrets.env
+*.bak
+*.bak.*
