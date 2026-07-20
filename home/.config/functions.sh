@@ -182,7 +182,8 @@ git-files-fd() {
 #   results in a hierarchical, depth-first manner.
 #
 #   The output is sorted first by the top-level directory and then by the
-#   full directory path, ensuring a logical, nested structure.
+#   full directory path, ensuring a logical, nested structure. A grand
+#   total of the top-level directories is displayed at the end.
 #
 # EXAMPLES:
 #   git-files-fd timeout | dir-sizes
@@ -255,7 +256,7 @@ dir-sizes() {
   }
   END {
       # Set a minimum width to ensure the "PREFIX" header always fits.
-      if (max_width < 6) { max_width = 6; }
+      if (max_width < 11) { max_width = 11; } # Adjusted for "TOTAL      "
       
       # Dynamically create the format string and separator line based on the max width.
       header_format = "%-" max_width "s %10s %10s %10s\n";
@@ -267,6 +268,11 @@ dir-sizes() {
       printf(header_format, "PREFIX", "FILES", "LINES", "WORDS");
       printf(header_format, separator, "----------", "----------", "----------");
 
+      # Initialize grand total counters.
+      grand_total_files = 0;
+      grand_total_lines = 0;
+      grand_total_words = 0;
+
       # Loop through the stored data and print the final formatted table.
       for (i=1; i<=NR; i++) {
           # If the top-level directory changes, print a blank line for grouping.
@@ -277,8 +283,72 @@ dir-sizes() {
           # Print the formatted data line.
           printf(data_format, prefix[i], files[i], lines[i], words[i]);
           
+          # If it is a top-level directory (no "/"), add to grand totals.
+          if (index(prefix[i], "/") == 0) {
+              grand_total_files += files[i];
+              grand_total_lines += lines[i];
+              grand_total_words += words[i];
+          }
+
           # Update the group tracker for the next iteration.
           last_toplevel = toplevel[i];
       }
+      
+      # Print a blank line and separator before the grand total.
+      print "";
+      printf(header_format, separator, "----------", "----------", "----------");
+      # Print the grand total line.
+      printf(data_format, "TOTAL      ", grand_total_files, grand_total_lines, grand_total_words);
   }'
+}
+
+export PATH=$PATH:~/.local/bin/
+
+aug-env
+
+export PATH="/opt/homebrew/opt/libiconv/bin:$PATH"
+export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/libiconv/lib"
+export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/libiconv/include"
+
+yt2txt() {
+  local lang=en width="${YT2TXT_WIDTH:-100}"
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -l|--lang)  lang="$2";  shift 2 ;;
+      -w|--width) width="$2"; shift 2 ;;
+      --) shift; break ;;
+      -*) echo "yt2txt: unknown option $1" >&2; return 1 ;;
+      *) break ;;
+    esac
+  done
+  if [ $# -eq 0 ]; then
+    echo "usage: yt2txt [-l lang] [-w width] <url-or-id> [more urls...]" >&2
+    return 1
+  fi
+
+  local first=1 input id title
+  for input in "$@"; do
+    case "$input" in
+      *youtube.com*|*youtu.be*)
+        id=$(printf '%s' "$input" | sed -nE \
+          -e 's/.*[?&]v=([A-Za-z0-9_-]{11}).*/\1/p' \
+          -e 's#.*youtu\.be/([A-Za-z0-9_-]{11}).*#\1#p' \
+          -e 's#.*/shorts/([A-Za-z0-9_-]{11}).*#\1#p' | head -n1) ;;
+      *) id="$input" ;;
+    esac
+    if [ -z "$id" ]; then
+      echo "yt2txt: couldn't parse a video id from: $input" >&2
+      continue
+    fi
+
+    [ $first -eq 0 ] && printf '\n\n'
+    first=0
+
+    title=$(curl -s "https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=$id" \
+      | python3 -c 'import sys,json;print(json.load(sys.stdin).get("title",""))' 2>/dev/null)
+    [ -z "$title" ] && title="$id"
+
+    printf '===== %s =====\n\n' "$title"
+    youtube_transcript_api "$id" --languages "$lang" --format text | fmt -w "$width"
+  done
 }
