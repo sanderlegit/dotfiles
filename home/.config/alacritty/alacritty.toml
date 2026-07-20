@@ -1,3 +1,4 @@
+[general]
 live_config_reload = true
 
 [colors.bright]
@@ -44,8 +45,10 @@ style = "Semibold Italic"
 style = "Light"
 
 [font.normal]
-family = "Liga SFMono Nerd Font"
-style = "Medium"
+family = "Melno"
+# family = "BlexMono Nerd Font Mono"
+# family = "Liga SFMono Nerd Font"
+# style = "Medium"
 
 [font.offset]
 x = 0
