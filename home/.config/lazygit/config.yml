@@ -68,17 +68,25 @@ git:
   skipHookPrefix: WIP
   autoFetch: true
   branchLogCmd: 'git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --'
-  allBranchesLogCmd: 'git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium'
   overrideGpg: false # prevents lazygit from spawning a separate process when using GPG
   disableForcePushing: false
   parseEmoji: false
   diffContextSize: 3 # how many lines of context are shown around a change in diffs
+  allBranchesLogCmds:
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
+
+# os:
+#   edit: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}'
+#   editAtLine: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}:{{line}}'
+#   editAtLineAndWait: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}:{{line}}'
+#   editInTerminal: true
+#   openDirInEditor: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{dir}}'
 os:
-  edit: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}'
-  editAtLine: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}:{{line}}'
-  editAtLineAndWait: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{filename}}:{{line}}'
+  edit: 'nvim {{filename}}'
+  editAtLine: 'nvim {{filename}}:{{line}}'
+  editAtLineAndWait: 'nvim {{filename}}:{{line}}'
   editInTerminal: true
-  openDirInEditor: 'nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example {{dir}}'
+  openDirInEditor: 'nvim {{dir}}'
 refresher:
   refreshInterval: 10 # file/submodule refresh interval in seconds
   fetchInterval: 60 # re-fetch interval in seconds
