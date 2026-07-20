@@ -3,7 +3,7 @@
 ## Connect
 
 ```sh
-ssh dries@65.108.46.236 -i ~/.ssh/id_ed25519_unit6
+ssh <user>@<host-ip> -i ~/.ssh/id_ed25519_<org>
 ```
 
 ### First setup (user account)
@@ -86,8 +86,8 @@ bash <<'EOF'
 # Format: "org_name:your_email@example.com"
 # Add as many lines as you need inside the parentheses.
 ORG_EMAILS=(
-    "unit6:sander@unit-6.net"
-    "auguria:sverheijen@auguria.io"
+    "org1:your-email@example.com"
+    "org2:your-other-email@example.com"
 )
 # ----------------------
 
