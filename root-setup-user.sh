@@ -7,8 +7,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # # Prompt for the new username
-# read -p "Enter the new username: " NEW_USER
-NEW_USER=dries
+read -p "Enter the new username: " NEW_USER
+# NEW_USER=dries
 
 # Create the new user
 useradd -m -s /bin/bash "$NEW_USER"
@@ -34,10 +34,11 @@ sed -i 's/^#*PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/ssh
 sed -i 's/^#*ChallengeResponseAuthentication yes/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
 sed -i 's/^#*UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
 
+# export NEW_USER=dries
 sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/.ssh
-sudo passwd -u dries
-sudo passwd dries
-sudo usermod -p '*' dries
+sudo passwd -u $NEW_USER
+sudo passwd $NEW_USER
+sudo usermod -p '*' $NEW_USER
 
 # Restart SSH service
 systemctl restart sshd

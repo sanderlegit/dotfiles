@@ -10,8 +10,8 @@ k9s:
   noIcons: false
   skipLatestRevCheck: false
   logger:
-    tail: 100
-    buffer: 5000
+    tail: 1000
+    buffer: 50000
     sinceSeconds: 300
     fullScreenLogs: false
     textWrap: false

@@ -1,0 +1,66 @@
+# theme = "base16_transparent"
+# theme = "term16_dark"
+theme = "base16_enhanced"
+# theme = "everforest_dark"
+
+[editor]
+true-color = true
+idle-timeout = 0
+gutters = ["diff", "diagnostics", "line-numbers", "spacer"]
+
+[editor.inline-diagnostics]
+cursor-line = "hint"
+other-lines = "hint"
+
+[editor.file-picker]
+hidden = false
+
+[editor.lsp]
+display-messages = true
+
+[editor.smart-tab]
+enable = true
+supersede-menu = false
+
+[editor.indent-guides]
+render = true
+character = "▏" # Some characters that work well: "▏", "┆", "┊", "⸽"
+skip-levels = 1
+
+[editor.soft-wrap]
+enable = true
+max-wrap = 25         # increase value to reduce forced mid-word wrapping
+max-indent-retain = 0
+# wrap-indicator = ""  # set wrap-indicator to "" to hide it
+
+[keys.normal]
+tab = "move_parent_node_end"
+S-tab = "move_parent_node_start"
+C-q = ":write-quit"
+
+[keys.normal.space]
+q = ":write"
+e = ":echo %sh{zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $HOME/.config/helix/cmds/yazi.nu %{buffer_name}}"
+g = ":echo %sh{zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- lazygit}"
+t = ":echo %sh{zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $HOME/.config/helix/cmds/fzf.nu}"
+m = ":echo %sh{zellij run -c -f -x 5%% -y 6%% --width 90%% --height 88%% -- nu $HOME/.config/helix/cmds/makefile.nu}"
+f = "file_picker"
+v = ":write-to-primary-clipboard %sh{gh browse -cn %{buffer_name}:%{cursor_line} | pbcopy}"
+B = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}"
+l = ":toggle-option lsp.display-inlay-hints"
+x = [
+  ":toggle inline-diagnostics.cursor-line hint disable",
+  ":toggle inline-diagnostics.other-lines hint disable",
+]
+
+[keys.normal.space.w]
+c = ":buffer-close"
+w = ":toggle-option soft-wrap.enable"
+
+[keys.insert]
+S-tab = "move_parent_node_start"
+C-a = "completion"
+
+[keys.select]
+tab = "extend_parent_node_end"
+S-tab = "extend_parent_node_start"

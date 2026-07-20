@@ -1,8 +1,15 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+export PATH=/home/dries/go/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/opt/homebrew/Caskroom/miniforge/base/bin:/home/dries/go/bin/:/opt/homebrew/Cellar/csvkit/1.0.7/bin/:/opt/homebrew/Cellar/bash-language-server/2.0.0/:/home/dries/.cargo/bin:/bin:/opt/homebrew/opt/protobuf@3/bin:/home/dries/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/opt/homebrew/bin:/Users/dries/Library/Python/3.8/bin:/usr/local/go/bin:/home/dries/go/bin
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
+. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -70,7 +77,12 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker-compose)
+plugins=(
+    git 
+    docker-compose
+    vi-mode
+    colored-man-pages
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -115,14 +127,7 @@ source $ZSH/oh-my-zsh.sh
 
 ### Terminal Fixes
 
-# Italics
-alias tm="env TERM=screen-256color tmux"
-alias tx="env TERM=screen-256color tmux"
-
-
 ### QOL Shortcuts
-
-alias zshconf="avim ~/.zshrc; source ~/.zshrc"
 
 alias llt="ls -lat"
 
@@ -131,17 +136,10 @@ rmds () {
 	rm $(find . | grep '\.DS_Store')
 }
 
-alias lg="lazygit"
-alias ld="lazydocker"
 # alias air='~/.air'
-
-export KEY_DIR=~/dev/secrutiny/keys
-export SUY=~/dev/secrutiny/
-alias suy=~/dev/secrutiny/
 
 alias nosleep="sudo pmset -b disablesleep 1"
 alias yessleep="sudo pmset -b disablesleep 0"
-
 
 alias tp="touch package.json"
 
@@ -185,7 +183,7 @@ echo  ps -vmp $PIDS
 # Rust
 # libpq, for certh postgres
 export RUSTFLAGS="-L/opt/homebrew/opt/libpq/lib"
-source $HOME/.cargo/env
+# source $HOME/.cargo/env
 
 # GCP
 # PATH for the Google Cloud SDK.
@@ -194,13 +192,15 @@ if [ -f '/Users/dries/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dries/goo
 if [ -f '/Users/dries/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dries/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Terraform
-autoload -U +X bashcompinit && bashcompinit
+autoload -Uz +X compinit && compinit
+autoload -Uz +X bashcompinit && bashcompinit
+
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # AZ CLI 
 # HOMEBREW_PREFIX="$(brew --prefix)"
 HOMEBREW_PREFIX="/opt/homebrew"
-source "$HOMEBREW_PREFIX/etc/bash_completion.d/az"
+# source "$HOMEBREW_PREFIX/etc/bash_completion.d/az"
 
 #Protoc
 export PATH="/opt/homebrew/opt/protobuf@3/bin:$PATH"
@@ -216,8 +216,12 @@ export PATH="$CONDA_PREFIX/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/opt/homebrew/Cellar/bash-language-server/2.0.0/:$PATH"
 export PATH="/opt/homebrew/Cellar/csvkit/1.0.7/bin/:$PATH"
-export PATH="$HOME/go/bin/:$PATH"
 
+# Add Go bin to PATH
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+export PATH=~/.npm-global/bin:$PATH
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -251,120 +255,89 @@ for file in *; do
   fi
 done"
 
+# New vi
+# VI mode and prompt configuration
+function prompt_status() {
+    # Define colors using %F for foreground
+    local user_host='%F{green}%n@%m%f'
+    local current_dir='%F{cyan}%~%f'
+    local git_branch='$(git_prompt_info)'
+    local timestamp='%F{yellow}[%D{%H:%M:%S}]%f'
+    # Only include space after vi_mode if it's not empty
+    local vi_mode='${${KEYMAP/vicmd/"%F{red}N%f "}/(main|viins)/"%F{blue}I%f "}'
+    local prompt_char='%F{magenta}➜%f'
 
-bindkey 'jk' vi-cmd-mode
-PS1+='${VIMODE}'
-#   '$' for normal insert mode
-#   a big red 'I' for command mode - to me this is 'NOT insert' because red
+    # Git prompt settings
+    ZSH_THEME_GIT_PROMPT_PREFIX=" %F{blue}git:(%f%F{red}"
+    ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
+    ZSH_THEME_GIT_PROMPT_DIRTY="%F{blue}) %F{yellow}✗%f"
+    ZSH_THEME_GIT_PROMPT_CLEAN="%F{blue})%f"
+
+    # Set the prompt with newline before prompt character
+    PROMPT="${timestamp} ${user_host} ${current_dir}${git_branch} ${vi_mode}
+${prompt_char} "
+}
+
+# Initialize the prompt
+prompt_status
+
+# Set up vi-mode indicators
 function zle-line-init zle-keymap-select {
-    DOLLAR='%B%F{green}$%f%b '
-    GIANT_I='%B%F{red}N%f%b '
-    VIMODE="${${KEYMAP/vicmd/$GIANT_I}/(main|viins)/$DOLLAR}"
+    prompt_status
     zle reset-prompt
 }
+
+# Register the widgets
 zle -N zle-line-init
 zle -N zle-keymap-select
+
+# Vi mode settings
+bindkey 'jk' vi-cmd-mode
+KEYTIMEOUT=20  # Reduces delay when typing 'jk'
+
+# Make sure vi-mode is enabled
+bindkey -v
+# Old vi
+# bindkey 'jk' vi-cmd-mode
+# PS1+='${VIMODE}'
+# #   '$' for normal insert mode
+# #   a big red 'I' for command mode - to me this is 'NOT insert' because red
+# function zle-line-init zle-keymap-select {
+#     DOLLAR='%B%F{green}$%f%b '
+#     GIANT_I='%B%F{red}N%f%b '
+#     VIMODE="${${KEYMAP/vicmd/$GIANT_I}/(main|viins)/$DOLLAR}"
+#     zle reset-prompt
+# }
+# zle -N zle-line-init
+# zle -N zle-keymap-select
 
 replace_strings() {
     # Define the colors
     RED='\033[1;31m'
-		GREEN='\033[33m'
+    GREEN='\033[33m'
     NC='\033[0m' # No Color
-
-    # Assign the arguments to named variables
+    
+    # Assign arguments to variables
     file_type=$1
     find_string=$2
     replace_string=$3
-
+    
     echo "This will replace all instances of '$find_string' with '$replace_string' in all $file_type files."
-
-    # Find the files that contain the find_string
-    files=$(grep -rl --include="*$file_type" "$find_string" .)
-
-    echo "The following files will be affected:"
-    echo "$files"
-
-    echo "The following changes will be made:"
-    pre_change=$(echo "$files" | xargs grep -n "$find_string")
-
-    longest=0
-    while IFS= read -r line
-    do
-        filename=$(echo $line | cut -d: -f1)
-        length=${#filename}
-        if (( length > longest ))
-        then
-            longest=$length
-        fi
-    done <<< "$pre_change"
-
-    prev_filename=""
-    while IFS= read -r line
-    do
-        filename=$(echo $line | cut -d: -f1)
-        line_number=$(echo $line | cut -d: -f2)
-        content=$(echo $line | cut -d: -f3- | sed -e 's/^[[:space:]]*//')
-
-        # Calculate the number of leading spaces to align the replace_string
-        leading_spaces=${content%%$find_string*}
-        leading_spaces=${#leading_spaces}
-
-				cut_before=$(echo "$content" | awk -v find="$find_string" '{split($0, a, find); print a[1]}')
-
-				# Cut string after substring
-				cut_after=$(echo "$content" | awk -v find="$find_string" '{split($0, a, find); print a[2]}')
-        
-        # Only print the filename if it is not the same as the previous one
-        if [ "$filename" != "$prev_filename" ]
-        then
-            printf "\n%-$((longest+5))s\n" "$filename"
-            prev_filename=$filename
-        fi
-
-        printf "%-3s:%s${RED}%s${NC}%s\n" "$line_number" "$cut_before" "$find_string" "$cut_after"
-        printf "%-3s%*s ${RED} ~ %s${NC}\n" "" "$leading_spaces" "" "$replace_string"
-    done <<< "$pre_change"
-
+    
+    # Preview changes using sd's preview functionality
+    echo "Preview of changes:"
+    sd --preview "$find_string" "$replace_string" $(fd -e "$file_type")
+    
+    # Confirmation
     echo -n "Are you sure you want to continue? (y/n) "
     read answer
-    if [ "$answer" != "${answer#[Yy]}" ] ;then
-        echo "$files" | xargs -I {} sed -i "" "s#$find_string#$replace_string#g" {}
-
-        post_change=$(echo "$files" | xargs grep -n "$replace_string")
-        if [ "$pre_change" != "$post_change" ]; then
-            echo "Replacements were made. Here are the changes:"
-            echo "$post_change"
-        else
-            echo "No replacements were made."
-        fi
+    if [ "$answer" != "${answer#[Yy]}" ]; then
+        # Execute the replacement directly on the files found by fd
+        sd "$find_string" "$replace_string" $(fd -e "$file_type")
+        echo "Replacements completed."
     else
         echo "Operation cancelled."
     fi
-}
-
-fname_grep() {
-    if [ -z "$1" ] || [ -z "$2" ]; then
-        echo "Usage: fname_grep <search_string> <file_type>"
-        echo "Searches for a string in a given filetype within the current directory and its subdirectories."
-        echo "Arguments:"
-        echo "  <search_string>: The string to search for"
-        echo "  <file_type>: The file type to search within"
-        return 1
-    fi
-
-    local search_string="$1"
-    local file_type="$2"
-
-    # Get the length of the longest filename
-    local longest_filename_length=$(grep -l "$search_string" --include="*.$file_type" -r . | awk '{ print length($0) }' | sort -nr | head -n 1)
-
-    # Set the padding format based on the longest filename length
-    local padding_format="%-${longest_filename_length}s"
-
-    # Grep with padded filenames
-    grep -H "$search_string" --include="*.$file_type" -r . | while IFS=: read -r filename content; do
-        printf "$padding_format:$content\n" "$filename"
-    done
 }
 
 # Usage: post_request <url> <file>
@@ -393,41 +366,64 @@ help() {
   echo "Functions in .zshrc:"
   grep '()' ~/.zshrc
 
+  echo "Alias in .zshrc:"
+  grep 'alias' ~/.zshrc
+
   echo "Help in .zshrc:"
   grep -A1 '# HELP: ' ~/.zshrc
 }
 
-export EDITOR=lvim
-
-function chron() {
-    local inputString="$1"
-    local baseURL="https://mercury-europe-west2.backstory.chronicle.security/rawLogScanResults?searchQuery=SUBSTITUTEHERE&cs=0&sources=Apache,Arcsight%20CEF,Auth0,Azure%20AD%20Organizational%20Context,Azure%20DevOps%20Audit,CrowdStrike%20Falcon,CSG%20Singleview,CSV%20Custom%20IOC,Digital%20Shadows%20Indicators,Elastic%20Windows%20Event%20Log%20Beats,F5%20ASM,FortiGate,Juniper,Linux%20Auditing%20System%20(AuditD),Microsoft%20Defender%20for%20Endpoint,Microsoft%20Graph%20API%20Alerts,Netscout,Netscout%20Arbor%20Sightline,Office%20365,Onesys,Osirium%20PAM,Pulse%20Secure,Rapid7%20Insight,Shrubbery%20TACACS%2B,Symantec%20Web%20Security%20Service,UDM,Unix%20system,VMware%20ESXi&regex=1&referenceTime=2023-08-17T10:25:00.000Z&startTime=2023-07-19T00:00:00.000Z&endTime=2023-07-21T23:30:00.000Z&selectedList=RawLogScanViewTimeline"
-
-    # Substitute the input string in place of the placeholder and open the URL in Brave browser.
-    local finalURL=$(echo "$baseURL" | sed "s/SUBSTITUTEHERE/${inputString}/")
-    open -a "Brave Browser" "$finalURL"
+function lg() {
+    command lazygit
 }
 
-lights() {
-    # Check if Vivid is running
-    if pgrep "Vivid" > /dev/null; then
-        # Close Vivid
-        pkill "Vivid"
-        # Open Flux
-        open -a "Flux"
-    else
-        # Check if Flux is running
-        if pgrep "Flux" > /dev/null; then
-            # Close Flux
-            pkill "Flux"
-            # Open Vivid
-            open -a "Vivid"
-        else
-            # Default action (You can decide to open either Vivid or Flux if none are running)
-            open -a "Vivid"
-        fi
-    fi
+function gitui() {
+    command gitui
 }
+
+function ld() {
+    command lazydocker
+}
+
+
+function zshconf() {
+    cd ~/
+    $EDITOR ~/.zshrc
+    source ~/.zshrc
+    cd -
+}
+
+export ZELLIX_MOD="$HOME/.dotfiles/zellix"
+
+# editor in terminal
+function te() {
+    nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example $@
+}
+
+# editor in floating window, bind `floating` in your zellij to toggle
+function pop {
+    zellij ac rename-tab "$(basename "$(pwd)")"
+    # zellij run -f -x 0 -y 0 --width 100% --height 100% -- nu $ZELLIX_MOD/run.nu $ZELLIX_MOD/example
+    zellij run -f -x 0 -y 0 --width 100% --height 100% -- hx
+}
+
+# edit dotfiles
+function drc() {
+  cd ~/.dotfiles/ && hx home/.zshrc
+  cd -
+}
+
+
+# aider
+function ai {
+    # zellij ac rename-tab "ai $(basename "$(pwd)")"
+    aider --no-attribute-author --no-attribute-committer --dark-mode --multi $@
+}
+
+export EDITOR=hx
+
+export PREVIEW_SH=$HOME/.dotfiles/preview.sh
+
 export XDG_CONFIG_HOME=~/.config/
 
 ### Fix for making Docker plugin work
@@ -436,76 +432,257 @@ export XDG_CONFIG_HOME=~/.config/
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
-openpodport() {
-    pod_name=$1
-    internal_port=$2
-
-    if [ -z "$pod_name" ] || [ -z "$internal_port" ]; then
-        echo "Usage: open_pod_port_in_brave <pod_name> <internal_port>"
-        return 1
-    fi
-
-    # Find the container ID using the pod name
-    container_id=$(docker ps --filter "name=$pod_name" --format "{{.ID}}")
-
-    if [ -z "$container_id" ]; then
-        echo "Container not found for pod: $pod_name"
-        return 1
-    fi
-
-    # Extract the mapped port
-    mapped_port=$(docker port $container_id $internal_port | cut -d ':' -f 2)
-
-    if [ -z "$mapped_port" ]; then
-        echo "No port found mapped to $internal_port for pod: $pod_name"
-        return 1
-    fi
-
-    # Construct the URL
-    url="http://localhost:$mapped_port"
-
-    # Open the URL in Brave Browser
-    if open -a "Brave Browser" $url; then
-        echo "Opened $url in Brave Browser."
-    else
-        echo "Failed to open Brave Browser. Is it installed?"
-    fi
-}
-
-dotenv() {
-	export $(cat .env | grep -v ^# | xargs);
-}
-
-eval "$(pyenv init -)"
-
-my-backward-word () {
-    # Add colon, comma, single/double quotes to word chars
-    local WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>:,"'"'"
-    zle backward-word
-}
-my-forward-word () {
-    # Add colon, comma, single/double quotes to word chars
-    local WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>:,"'"'"
-    zle forward-word
-}
-
-zle -N my-backward-word
-zle -N my-forward-word
-bindkey "[D" my-backward-word
-bindkey "[C" my-forward-word
-
+# macos stuff
 #https://flaky.build/native-fix-for-applications-hiding-under-the-macbook-pro-notch
 # defaults -currentHost delete -globalDomain NSStatusItemSelectionPadding
 # defaults -currentHost delete -globalDomain NSStatusItemSpacing
 # defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 3
 # defaults -currentHost write -globalDomain NSStatusItemSpacing -int 3
-alias avim="NVIM_APPNAME=AstroNvim nvim"
-alias cachesite="wget --mirror --convert-links --adjust-extension --page-requisites --no-parent $1"
 
-alias z="zoxide"
-alias red="open /System/Library/CoreServices/ScreenSaverEngine.app"
+# macos stuff
+# alias red="open /System/Library/CoreServices/ScreenSaverEngine.app"
+ 
+# macos stuff
+# lights() {
+#     # Check if Vivid is running
+#     if pgrep "Vivid" > /dev/null; then
+#         # Close Vivid
+#         pkill "Vivid"
+#         # Open Flux
+#         open -a "Flux"
+#     else
+#         # Check if Flux is running
+#         if pgrep "Flux" > /dev/null; then
+#             # Close Flux
+#             pkill "Flux"
+#             # Open Vivid
+#             open -a "Vivid"
+#         else
+#             # Default action (You can decide to open either Vivid or Flux if none are running)
+#             open -a "Vivid"
+#         fi
+#     fi
+# }
 
 # Kubectl
-source <(kubectl completion zsh)
 
 alias k9s='k9s -n all'
+
+source <(fzf --zsh)
+
+source <(kubectl completion zsh)
+
+# Created by `pipx` on 2024-09-21 22:44:15
+export PATH="$PATH:$HOME/.local/bin"
+alias tfswitch="sudo /home/dries/.local/bin/tfswitch -i $HOME/.local/bin"
+
+source ~/pyevn-default/bin/activate
+
+export PATH=$HOME/.istioctl/bin:$PATH
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8	
+
+CUDA_HOME=/usr/local/cuda
+PATH=${CUDA_HOME}/bin${PATH:+:${PATH}}
+# LD_LIBRARY_PATH=${CUDA_HOME}/lib64 ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+# export LD_LIBRARY_PATH
+export CUDA_HOME
+export PATH
+
+# cargo install du-dust
+function dirsize() {
+    dust $1
+}
+
+# function killold() {
+#     local search_term=$1
+#     if [[ -z $search_term ]]; then
+#         echo "Usage: killold <search_term>"
+#         return 1
+#     fi
+
+#     echo "Will kill these processes:"
+#     ps -eo pid,etime,cmd | grep $search_term | grep -v grep
+#     echo "\nProceed with kill? [y/N] "
+#     read -q response
+#     echo
+    
+#     if [[ $response =~ ^[Yy]$ ]]; then
+#         echo "Killing processes..."
+#         ps -eo pid,etime,cmd | grep $search_term | grep -v grep | awk '{print $1}' | xargs kill
+#     else
+#         echo "Operation cancelled"
+#     fi
+# }
+
+# Gh Cli
+export GH_PAGER=cat
+eval "$(gh completion -s zsh)"
+# BEGIN_AWS_SSO_CLI
+
+# AWS SSO requires `bashcompinit` which needs to be enabled once and
+# only once in your shell.  Hence we do not include the two lines:
+#
+# autoload -Uz +X compinit && compinit
+# autoload -Uz +X bashcompinit && bashcompinit
+#
+# If you do not already have these lines, you must COPY the lines 
+# above, place it OUTSIDE of the BEGIN/END_AWS_SSO_CLI markers
+# and of course uncomment it
+
+__aws_sso_profile_complete() {
+     local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    _multi_parts : "($(/home/linuxbrew/.linuxbrew/Cellar/aws-sso-cli/1.17.0/bin/aws-sso ${=_args} list --csv Profile))"
+}
+
+aws-sso-profile() {
+    local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    if [ -n "$AWS_PROFILE" ]; then
+        echo "Unable to assume a role while AWS_PROFILE is set"
+        return 1
+    fi
+
+    if [ -z "$1" ]; then
+        echo "Usage: aws-sso-profile <profile>"
+        return 1
+    fi
+
+    eval $(/home/linuxbrew/.linuxbrew/Cellar/aws-sso-cli/1.17.0/bin/aws-sso ${=_args} eval -p "$1")
+    if [ "$AWS_SSO_PROFILE" != "$1" ]; then
+        return 1
+    fi
+}
+
+aws-sso-clear() {
+    local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    if [ -z "$AWS_SSO_PROFILE" ]; then
+        echo "AWS_SSO_PROFILE is not set"
+        return 1
+    fi
+    eval $(/home/linuxbrew/.linuxbrew/Cellar/aws-sso-cli/1.17.0/bin/aws-sso ${=_args} eval -c)
+}
+
+compdef __aws_sso_profile_complete aws-sso-profile
+complete -C /home/linuxbrew/.linuxbrew/Cellar/aws-sso-cli/1.17.0/bin/aws-sso aws-sso
+
+# END_AWS_SSO_CLI
+eval 
+MATANO_AC_ZSH_SETUP_PATH=/home/dries/.cache/matano/autocomplete/zsh_setup && test -f $MATANO_AC_ZSH_SETUP_PATH && source $MATANO_AC_ZSH_SETUP_PATH; # matano autocomplete setup
+
+export NVM_DIR="$HOME/.config//nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+function aug-env {
+  export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_auguria"
+}
+
+function u6-env {
+  export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_unit6"
+}
+
+# default
+aug-env
+
+alias prc="gh pr comment --editor";
+alias pre="gh pr comment --editor --edit-last";
+alias prv="gh pr view --comments";
+alias prw="gh pr view --web";
+
+# Function to get PR URL and copy using OSC52
+prl() {
+  pr_url=$(gh pr view --json url --jq .url)
+  if [ $? -eq 0 ]; then
+    printf "\033]52;c;$(echo -n "$pr_url" | base64)\a"
+    echo "PR URL copied to clipboard: $pr_url"
+  else
+    echo "Failed to get PR URL. Make sure you're in a git repository with an open PR."
+  fi
+}
+
+export GOPRIVATE=github.com/auguria-io
+
+# lldb-dap debugging and other
+# $(brew --prefix)/opt/llvm/bin
+
+# Function to edit PR description in your default editor
+# If PR_NUMBER is empty, default behaviour follows
+# Usage: predit [PR_NUMBER]
+prb() {
+  # Check if gh is installed
+  if ! command -v gh &> /dev/null; then
+    echo "Error: GitHub CLI (gh) is not installed. Please install it first."
+    return 1
+  fi
+
+  # Check if a PR number was provided as an argument, otherwise use current branch
+  if [ "$1" ]; then
+    PR_SELECTOR="$1"
+  else
+    PR_SELECTOR=""
+  fi
+
+  # Create a temporary file
+  TEMP_FILE=$(mktemp /tmp/pr-body-XXXXXX.md)
+
+  # Get the current PR body and save to the temporary file
+  echo "Fetching current PR description..."
+  gh pr view $PR_SELECTOR --json body --jq .body > "$TEMP_FILE"
+
+  if [ $? -ne 0 ]; then
+    echo "Error: Failed to get PR description. Make sure you're in a repository with a PR or provide a valid PR number."
+    rm "$TEMP_FILE"
+    return 1
+  fi
+
+  # Get the original file modification time
+  ORIGINAL_MTIME=$(stat -c %Y "$TEMP_FILE" 2>/dev/null || stat -f %m "$TEMP_FILE")
+
+  # Open the temporary file in the default editor
+  echo "Opening PR description in your default editor. Make your changes and save the file..."
+  ${VISUAL:-${EDITOR:-vi}} "$TEMP_FILE"
+
+  # Get the new file modification time
+  NEW_MTIME=$(stat -c %Y "$TEMP_FILE" 2>/dev/null || stat -f %m "$TEMP_FILE")
+
+  # Check if the file was modified
+  if [ "$ORIGINAL_MTIME" = "$NEW_MTIME" ]; then
+    echo "No changes were made. PR description not updated."
+    rm "$TEMP_FILE"
+    return 0
+  fi
+
+  # Update the PR body with the edited content
+  echo "Updating PR description..."
+  gh pr edit $PR_SELECTOR --body-file "$TEMP_FILE"
+
+  if [ $? -eq 0 ]; then
+    echo "PR description updated successfully!"
+  else
+    echo "Error: Failed to update PR description."
+    echo "Your changes are saved in: $TEMP_FILE"
+    return 1
+  fi
+
+  # Clean up
+  rm "$TEMP_FILE"
+}
+
+# yazi
+function c() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}

@@ -1,8 +1,22 @@
 #!/bin/bash
 
-# List of organizations and corresponding emails
-# Format: "org1:email1@example.com" "org2:email2@example.com"
-org_emails=("unit6:sander@unit-6.net" "auguria:sverheijen@auguria.io")
+# Collect org:email pairs interactively
+org_emails=()
+echo "Enter GitHub organizations and associated emails."
+echo "Type 'done' when finished."
+while true; do
+  read -rp "Org name (or 'done'): " org
+  [ "$org" = "done" ] && break
+  [ -z "$org" ] && continue
+  read -rp "Email for $org: " email
+  [ -z "$email" ] && { echo "Email cannot be empty."; continue; }
+  org_emails+=("$org:$email")
+done
+
+if [ ${#org_emails[@]} -eq 0 ]; then
+  echo "No organizations provided. Exiting."
+  exit 1
+fi
 
 # SSH config file path
 ssh_config="$HOME/.ssh/config"

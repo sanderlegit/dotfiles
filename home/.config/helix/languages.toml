@@ -1,0 +1,77 @@
+[[language]]
+name = "rust"
+auto-format = true
+indent = { tab-width = 2, unit = "\t" }
+formatter = { command = "rustfmt", args = ["--edition", "2024"] }
+
+
+[[language]]
+name = "nu"
+auto-format = true
+indent = { tab-width = 2, unit = "\t" }
+# formatter = { command = "nufmt", args = ["--stdin"] }
+
+[[language]]
+name = "go"
+auto-format = true
+formatter = { command = "goimports" }
+indent = { tab-width = 2, unit = "\t" }
+
+[[language]]
+name = "nix"
+auto-format = true
+formatter = { command = "nix fmt" }
+indent = { tab-width = 2, unit = "\t" }
+
+[[language]]
+name = "python"
+diagnostic-severity = "info"
+indent = { tab-width = 2, unit = "\t" }
+
+[[language]]
+name = "toml"
+formatter = { command = "taplo", args = ["fmt", "-"] }
+indent = { tab-width = 2, unit = "\t" }
+
+[language-server.rust-analyzer.config.procMacro]
+# https://book.leptos.dev/getting_started/leptos_dx.html#2-editor-autocompletion-inside-component-and-server
+ignored = { leptos_macro = [
+  # Optional:
+  # "component",
+  # "server"
+] }
+
+[language-server.rust-analyzer.config.check]
+check = { command = "cargo", extraArgs = ["clippy"] }
+
+[language-server.pylsp.config.pylsp.plugins]
+pycodestyle = { ignore = ["E501"], maxLineLength = 120 }
+
+[language-server.ruff]
+command = "ruff"
+config = { lint = { ignore = ["E501", "W293"] } }
+
+[[language]]
+name = "yaml"
+file-types = ["yaml", "yml", "tmpl"]
+language-servers = [] # disabled
+# language-servers = ["yaml-language-server"]
+
+# [language-server.yaml-language-server]
+# command = "yaml-language-server"
+# args = ["--stdio"]
+
+# [language-server.yaml-language-server.config.yaml]
+# completion = true
+# validation = true
+# hover = true
+
+# [language-server.yaml-language-server.config.yaml.schemas]
+# "https://github.com/awslabs/goformation/raw/refs/heads/master/schema/cloudformation.schema.json" = ["*cloudformation*.yaml", "*cfn*.yaml"]
+
+[[language]]
+name = "kotlin"
+scope = "source.kotlin"
+file-types = ["kt", "kts"]
+roots = ["build.gradle.kts", "settings.gradle.kts", "build.gradle", "settings.gradle"]
+

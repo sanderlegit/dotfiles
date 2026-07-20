@@ -1,0 +1,3 @@
+[submodule "zellix"]
+	path = zellix
+	url = git@github.com-unit6:sanderlegit/zellix.git

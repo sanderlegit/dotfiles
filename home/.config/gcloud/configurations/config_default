@@ -1,0 +1,7 @@
+[core]
+account = sander@aaadataplumbing.com
+project = gen-lang-client-0342800361
+
+[storage]
+parallel_composite_upload_enabled = True
+
